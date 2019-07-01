@@ -94,7 +94,8 @@
             android:id="@+id/cuisine_button_american"
             android:text="@string/cuisine_american"
             app:layout_constraintTop_toBottomOf="@id/heading-cuisine"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
@@ -102,21 +103,24 @@
             android:text="@string/cuisine_mexican"
             app:layout_constraintTop_toBottomOf="@id/heading-cuisine"
             app:layout_constraintLeft_toRightOf="@id/cuisine_button_american"
-            app:layout_constraintRight_toLeftOf="@id/cuisine_button_chinese"/>
+            app:layout_constraintRight_toLeftOf="@id/cuisine_button_chinese"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
             android:id="@+id/cuisine_button_chinese"
             android:text="@string/cuisine_chinese"
             app:layout_constraintTop_toBottomOf="@id/heading-cuisine"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
             android:id="@+id/cuisine_button_japanese"
             android:text="@string/cuisine_japanese"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_american"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
@@ -124,21 +128,24 @@
             android:text="@string/cuisine_indian"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_mexican"
             app:layout_constraintLeft_toRightOf="@id/cuisine_button_japanese"
-            app:layout_constraintRight_toLeftOf="@id/cuisine_button_french"/>
+            app:layout_constraintRight_toLeftOf="@id/cuisine_button_french"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
             android:id="@+id/cuisine_button_french"
             android:text="@string/cuisine_french"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_chinese"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
             android:id="@+id/cuisine_button_italian"
             android:text="@string/cuisine_italian"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_japanese"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
@@ -146,14 +153,16 @@
             android:text="@string/cuisine_spanish"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_indian"
             app:layout_constraintLeft_toRightOf="@id/cuisine_button_italian"
-            app:layout_constraintRight_toLeftOf="@id/cuisine_button_british"/>
+            app:layout_constraintRight_toLeftOf="@id/cuisine_button_british"
+            app:layout_constraintWidth_percent="0.3"/>
 
         <Button
             style="@style/cuisine_button"
             android:id="@+id/cuisine_button_british"
             android:text="@string/cuisine_british"
             app:layout_constraintTop_toBottomOf="@id/cuisine_button_french"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

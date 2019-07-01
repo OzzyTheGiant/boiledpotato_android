@@ -9,6 +9,7 @@
     <dimen name="font_size_cuisine_button">8sp</dimen>
     <dimen name="border_radius">4dp</dimen>
     <dimen name="button_size_main">32dp</dimen>
+    <dimen name="button_size_cuisine">72dp</dimen>
     <dimen name="button_cuisine_padding">8dp</dimen>
     <dimen name="button_cuisine_drawable_padding">-8sp</dimen>
     <dimen name="line_spacing_search_component">20dp</dimen>
