@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_main">4dp</dimen>
+    <dimen name="padding_main">4dp</dimen>
+    <dimen name="padding_viewport">8dp</dimen>
+    <dimen name="line_spacing">8dp</dimen>
+    <dimen name="font_size_main">16sp</dimen>
+    <dimen name="font_size_heading">20sp</dimen>
+    <dimen name="font_size_cuisine_button">8sp</dimen>
+    <dimen name="border_radius">4dp</dimen>
+    <dimen name="button_size_main">32dp</dimen>
+    <dimen name="button_cuisine_padding">8dp</dimen>
+    <dimen name="button_cuisine_drawable_padding">-8sp</dimen>
+    <dimen name="line_spacing_search_component">20dp</dimen>
+</resources>

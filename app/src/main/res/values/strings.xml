@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Boiled Potato</string>
+    <string name="main_activity_title">Find a Recipe</string>
+    <string name="main_activity_heading_cuisine">Cuisines</string>
+    <string name="search_field_hint">Search by Ingredient</string>
+    <string name="cuisine_american">American</string>
+    <string name="cuisine_mexican">Mexican</string>
+    <string name="cuisine_chinese">Chinese</string>
+    <string name="cuisine_japanese">Japanese</string>
+    <string name="cuisine_indian">Indian</string>
+    <string name="cuisine_french">French</string>
+    <string name="cuisine_italian">Italian</string>
+    <string name="cuisine_spanish">Spanish</string>
+    <string name="cuisine_british">British</string>
 </resources>
