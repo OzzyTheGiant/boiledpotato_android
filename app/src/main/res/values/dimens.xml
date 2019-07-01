@@ -3,6 +3,7 @@
     <dimen name="margin_main">4dp</dimen>
     <dimen name="padding_main">4dp</dimen>
     <dimen name="padding_viewport">8dp</dimen>
+    <dimen name="padding_toast">16dp</dimen>
     <dimen name="line_spacing">8dp</dimen>
     <dimen name="font_size_main">16sp</dimen>
     <dimen name="font_size_heading">20sp</dimen>
