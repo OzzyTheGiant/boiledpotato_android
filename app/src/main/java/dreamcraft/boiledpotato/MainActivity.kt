@@ -23,17 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         search_button.setOnClickListener(searchButtonClickListener)
-        cuisine_button_american.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_mexican.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_chinese.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_japanese.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_indian.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_french.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_italian.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_spanish.setOnClickListener(cuisineButtonClickListener)
-        cuisine_button_british.setOnClickListener(cuisineButtonClickListener)
+        for (i in 0 until button_grid.childCount - 1) {
+            // add click listener to every cuisine button
+            (button_grid.getChildAt(i) as Button).setOnClickListener(cuisineButtonClickListener);
+        }
     }
 
     /** Initiate search results activity by passing search keyword to be used in Spoonacular API */
