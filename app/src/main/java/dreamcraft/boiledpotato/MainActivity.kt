@@ -17,25 +17,29 @@ object GLOBALS {
 }
 
 class MainActivity : AppCompatActivity() {
+    // custom toast view layout
+    private var toastLayout: View? = null
+
     private val searchButtonClickListener = fun(_: View) = startSearchResultsActivity(search_field.text.toString())
     private val cuisineButtonClickListener = fun(view: View) = startSearchResultsActivity((view as Button).text.toString())
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        toastLayout = layoutInflater.inflate(R.layout.toast_error, null) // init custom toast layout
         search_button.setOnClickListener(searchButtonClickListener)
         for (i in 0 until button_grid.childCount - 1) {
             // add click listener to every cuisine button
-            (button_grid.getChildAt(i) as Button).setOnClickListener(cuisineButtonClickListener);
+            (button_grid.getChildAt(i) as Button).setOnClickListener(cuisineButtonClickListener)
         }
     }
 
     /** Initiate search results activity by passing search keyword to be used in Spoonacular API */
-    @SuppressLint("InflateParams")
     private fun startSearchResultsActivity (text: String) {
-        if (text == "") {
+        if (text == "") { // show error message if no text in search field when clicking search button
             val toast = Toast(applicationContext)
-            toast.view = layoutInflater.inflate(R.layout.toast_error, null)
+            toast.view = toastLayout
             toast.view.toast_error_message.text = GLOBALS.TOAST_MESSAGE
             toast.show(); return
         }
