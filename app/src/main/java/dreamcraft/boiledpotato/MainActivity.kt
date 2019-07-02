@@ -18,7 +18,7 @@ object GLOBALS {
 
 class MainActivity : AppCompatActivity() {
     private val searchButtonClickListener = fun(_: View) = startSearchResultsActivity(search_field.text.toString())
-    private val cuisineButtonClickListener = fun(view: View) = startSearchResultsActivity((view as Button).text.toString())
+    private val cuisineButtonClickListener = fun(view: View) = startSearchResultsActivity(cuisine = (view as Button).text.toString())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,18 +32,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Initiate search results activity by passing search keyword to be used in Spoonacular API */
+    /** Initiate search results activity by passing search keyword and cuisine to fetch recipes */
     @SuppressLint("InflateParams")
-    private fun startSearchResultsActivity (text: String) {
-        if (text == "") { // show error message if no text in search field when clicking search button
+    private fun startSearchResultsActivity (queryText: String = "", cuisine: String? = null) {
+        if (queryText == "") { // show error message if no text in search field when clicking search button
             val toast = Toast(applicationContext)
             toast.view = layoutInflater.inflate(R.layout.toast_error, null) // custom toast layout
             toast.view.toast_error_message.text = GLOBALS.TOAST_MESSAGE
             toast.show(); return
         }
 
+        // create intent, add query and/or cuisine, and start search results activity
         val intent = Intent(this, SearchResultsActivity::class.java)
-            .apply { putExtra(GLOBALS.EXTRAS_SEARCH, text) }
+        intent.putExtra(GLOBALS.EXTRAS_SEARCH, queryText)
+        if (cuisine != null) intent.putExtra(GLOBALS.EXTRAS_CUISINE, cuisine)
         startActivity(intent)
     }
 }
