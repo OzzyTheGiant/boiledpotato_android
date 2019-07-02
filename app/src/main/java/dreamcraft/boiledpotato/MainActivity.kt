@@ -19,10 +19,14 @@ object GLOBALS {
 class MainActivity : AppCompatActivity() {
     private val searchButtonClickListener = fun(_: View) = startSearchResultsActivity(search_field.text.toString())
     private val cuisineButtonClickListener = fun(view: View) = startSearchResultsActivity(cuisine = (view as Button).text.toString())
+    private val backButtonClickListener = fun(_: View) = finish()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // set click listeners on activity's buttons
+        back_button.setOnClickListener(backButtonClickListener)
         search_button.setOnClickListener(searchButtonClickListener)
 
         var button: Button // add click listener to every cuisine button
