@@ -1,4 +1,4 @@
-package dreamcraft.boiledpotato
+package dreamcraft.boiledpotato.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import dreamcraft.boiledpotato.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toast_error.view.*
 
@@ -44,13 +45,19 @@ class MainActivity : AppCompatActivity() {
         val button = view as Button
 
         if (cuisineButton != null) { // reset previous checked button if a button was previously clicked
-            changeCuisineButtonColors(cuisineButton!!, R.color.primary_dark, R.color.neutral)
+            changeCuisineButtonColors(cuisineButton!!,
+                R.color.primary_dark,
+                R.color.neutral
+            )
         }
 
         if (button == cuisineButton) {
             cuisineButton = null; return
         } else { // set current cuisine button to gold with black icon and text
-            changeCuisineButtonColors(button, R.color.neutral, R.color.primary_dark)
+            changeCuisineButtonColors(button,
+                R.color.neutral,
+                R.color.primary_dark
+            )
         }
         cuisineButton = button
     }

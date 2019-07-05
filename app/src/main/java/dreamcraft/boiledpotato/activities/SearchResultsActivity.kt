@@ -1,8 +1,9 @@
-package dreamcraft.boiledpotato
+package dreamcraft.boiledpotato.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import dreamcraft.boiledpotato.R
 
 class SearchResultsActivity : AppCompatActivity() {
 
