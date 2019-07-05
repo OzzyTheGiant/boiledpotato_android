@@ -12,7 +12,7 @@
         android:id="@+id/search_component"
         android:paddingLeft="@dimen/padding_viewport"
         android:paddingRight="@dimen/padding_viewport"
-        android:paddingTop="@dimen/line_spacing_search_component"
+        android:paddingTop="@dimen/padding_viewport"
         android:paddingBottom="@dimen/line_spacing_search_component"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
