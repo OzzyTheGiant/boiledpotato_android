@@ -8,6 +8,15 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+    <style name="component">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="dark_component" parent="@style/component">
+        <item name="android:background">@color/neutral</item>
+    </style>
+
     <style name="heading">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -27,9 +36,9 @@
         <item name="android:layout_height">@dimen/button_size_cuisine</item>
         <item name="android:layout_marginTop">@dimen/line_spacing</item>
         <item name="android:paddingTop">@dimen/button_cuisine_padding</item>
-        <item name="android:background">@drawable/button_background_gold</item>
-        <item name="android:drawableTop">@drawable/ic_utensils_black_32dp</item>
+        <item name="android:background">@drawable/button_background_black</item>
         <item name="android:drawablePadding">@dimen/button_cuisine_drawable_padding</item>
         <item name="android:textSize">@dimen/font_size_cuisine_button</item>
+        <item name="android:textColor">@color/primary</item>
     </style>
 </resources>

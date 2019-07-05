@@ -1,9 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SearchResultsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/dark_component"
+        android:id="@+id/header_component"
+        android:padding="@dimen/padding_viewport"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="@dimen/button_size_main"
+            android:layout_height="@dimen/button_size_main"
+            android:background="@drawable/ic_arrow_back_yellow_32dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            style="@style/heading"
+            android:id="@+id/title"
+            android:text="@string/search_results_activity_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/component"
+        android:id="@+id/search_results_component"
+        android:padding="@dimen/padding_viewport"
+        app:layout_constraintTop_toBottomOf="@id/header_component"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="720dp"
+        android:padding="@dimen/padding_viewport"
+        android:text="@string/no_results_found"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/header_component"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
