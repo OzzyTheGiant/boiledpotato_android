@@ -12,4 +12,6 @@
     <string name="cuisine_italian">Italian</string>
     <string name="cuisine_spanish">Spanish</string>
     <string name="cuisine_british">British</string>
+    <string name="search_results_activity_title">Search Results</string>
+    <string name="cuisine_paragraph">Filter search results by cuisine type</string>
 </resources>
