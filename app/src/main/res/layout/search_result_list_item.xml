@@ -20,6 +20,7 @@
         tools:ignore="ContentDescription"/>
 
     <TextView
+        android:id="@+id/recipe_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:padding="@dimen/padding_viewport"
