@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/padding_viewport"
+    android:layout_marginBottom="@dimen/padding_viewport"
     android:background="@drawable/search_result_list_item_background"
     android:clickable="true"
     android:focusable="true">
@@ -25,7 +27,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/padding_viewport"
         android:text="@string/placeholder_text"
-        android:textColor="@color/primary"
+        android:textColor="#FFFFFF"
         android:lines="2"
         android:maxLines="2"
         app:layout_constraintTop_toTopOf="parent"
