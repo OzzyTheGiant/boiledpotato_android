@@ -34,7 +34,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         style="@style/component"
-        android:id="@+id/search_results_component"
+        android:id="@+id/recycler_view"
         android:paddingLeft="@dimen/padding_viewport"
         android:paddingRight="@dimen/padding_viewport"
         android:layout_height="0dp"
@@ -44,6 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/result_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="720dp"
