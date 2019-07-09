@@ -28,13 +28,6 @@ class SearchResultsRecyclerViewAdapter(
     // Insert a new item to the RecyclerView on a predefined position
     fun insert(position: Int, recipe: Recipe) {
         recipeList.append(position, recipe)
-        notifyItemInserted(position)
-    }
-
-    // Remove a RecyclerView item containing a specified Data object
-    fun remove(recipe: Recipe) {
-        val position = recipeList.indexOfValue(recipe)
-        recipeList.remove(position)
-        notifyItemRemoved(position)
+        notifyItemRangeInserted(position, 10)
     }
 }
