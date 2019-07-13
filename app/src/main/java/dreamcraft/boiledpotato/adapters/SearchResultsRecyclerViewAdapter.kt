@@ -9,7 +9,7 @@ import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.viewholders.SearchResultViewHolder
 
 class SearchResultsRecyclerViewAdapter(
-    private val recipeList: SparseArray<Recipe>
+    private val recipeArray: SparseArray<Recipe>
 ) : RecyclerView.Adapter<SearchResultViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
@@ -18,16 +18,10 @@ class SearchResultsRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return recipeList.size()
+        return recipeArray.size()
     }
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
-        holder.textView?.text = recipeList[position].name
-    }
-
-    // Insert a new item to the RecyclerView on a predefined position
-    fun insert(position: Int, recipe: Recipe) {
-        recipeList.append(position, recipe)
-        notifyItemRangeInserted(position, 10)
+        holder.textView?.text = recipeArray[position].name
     }
 }
