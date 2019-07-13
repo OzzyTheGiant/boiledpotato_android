@@ -1,9 +1,12 @@
 package dreamcraft.boiledpotato.models
 
-class Recipe(
-    var id: Int,
-    var name: String,
-    var prepMinutes: Int,
-    var servings: Int,
-    var imageFileName: String
-) {}
+data class Recipe(
+    val id: Int,
+    val name: String,
+    val prepMinutes: Int,
+    val imageFileName: String
+) {
+    var servings = 0
+    lateinit var ingredients: Array<Ingredient>
+    lateinit var instructions: Array<RecipeInstructions>
+}
