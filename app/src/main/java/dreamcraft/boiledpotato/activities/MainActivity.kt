@@ -13,11 +13,6 @@ import dreamcraft.boiledpotato.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toast_error.view.*
 
-object GLOBALS {
-    const val EXTRAS_SEARCH = "SEARCH_QUERY"
-    const val EXTRAS_CUISINE = "CUISINE"
-}
-
 class MainActivity : AppCompatActivity() {
     private val searchButtonClickListener = fun(_: View) = startSearchResultsActivity(search_field.text.toString())
     private val cuisineButtonClickListener = fun (view: View) = checkCuisineOption(view)
@@ -86,14 +81,14 @@ class MainActivity : AppCompatActivity() {
 
     /** Initiate search results activity by passing search keyword and cuisine to fetch recipes */
     private fun startSearchResultsActivity (queryText: String = "") {
-        val cuisine = cuisineButton?.text.toString()
+        val cuisine = cuisineButton?.text?.toString() ?: ""
         // show error message if no text in search field when clicking search button
         if (queryText == "") { displayToast(); return }
 
         // create intent, add query and/or cuisine, and start search results activity
         val intent = Intent(this, SearchResultsActivity::class.java)
-        intent.putExtra(GLOBALS.EXTRAS_SEARCH, queryText)
-        intent.putExtra(GLOBALS.EXTRAS_CUISINE, cuisine)
+        intent.putExtra(IntentExtras.SEARCH, queryText)
+        intent.putExtra(IntentExtras.CUISINE, cuisine)
         startActivity(intent)
     }
 }
