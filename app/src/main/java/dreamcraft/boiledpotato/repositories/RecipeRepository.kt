@@ -15,10 +15,11 @@ class RecipeRepository : KoinComponent {
         cuisine: String,
         resultSize: Int,
         offset: Int = 0,
-        callback: (SparseArray<Recipe>) -> Unit
-    ) {
+        callback: (Resource<SparseArray<Recipe>>) -> Unit
+    ) : Resource<SparseArray<Recipe>> {
         restApiService
             .getRecipes(searchKeywords, cuisine, resultSize, offset)
             .enqueue(RestApiServiceCallback<SparseArray<Recipe>>(callback))
+        return Resource.Loading<SparseArray<Recipe>>()
     }
 }

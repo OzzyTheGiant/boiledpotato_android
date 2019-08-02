@@ -1,18 +1,30 @@
 package dreamcraft.boiledpotato.services
 
+import dreamcraft.boiledpotato.repositories.Resource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class RestApiServiceCallback<T>(
-    private val successCallback: (T) -> Unit
+    private val sendResource: (Resource<T>) -> Unit
 ) : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        response.body()?.let { successCallback(it) }
+        val responseBody = response.body()
+        if (response.isSuccessful && responseBody != null) {
+            sendResource(Resource.Success(responseBody))
+        } else {
+            val error = response.errorBody()?.string() ?: "Server Error: Please try again"
+            sendResource(Resource.Error(error))
+        }
     }
 
-    override fun onFailure(call: Call<T>, t: Throwable) {
-        return
+    override fun onFailure(call: Call<T>, error: Throwable) {
+        if (error is IOException) {
+            sendResource(Resource.Error("Network Error: Swipe down to try again"))
+        } else {
+            sendResource(Resource.Error("Data Error: Unable to properly display search results"))
+        }
     }
 }
