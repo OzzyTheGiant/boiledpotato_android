@@ -16,4 +16,5 @@
     <string name="cuisine_paragraph">Filter search results by cuisine type</string>
     <string name="placeholder_text">Lorem Ipsum Dolor Sit Amet Recteur Consequat E Pluribus Unum</string>
     <string name="no_results_found">No results found! Check keyword spelling or try using fewer keywords</string>
+    <string name="status_loading">Loading</string>
 </resources>
