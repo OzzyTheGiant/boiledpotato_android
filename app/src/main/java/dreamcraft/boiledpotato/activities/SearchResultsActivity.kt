@@ -6,6 +6,7 @@ import android.util.SparseArray
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
 import dreamcraft.boiledpotato.models.Recipe
@@ -45,14 +46,20 @@ class SearchResultsActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     val count = viewModel.recipes.size() % maxResultsSize
                     val resultSize = if (count > 0) count else maxResultsSize
+                    // check if data is already present in the activity
                     if (viewModel.recipes.size() in 1..maxResultsSize) {
-                        recycler_view.visibility = View.VISIBLE
+                        (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
+                        skeleton_search_results.visibility = View.GONE
                         result_message.visibility = View.GONE
+                        recycler_view.visibility = View.VISIBLE
                     }
                     recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultSize, resultSize)
                 }
                 is Resource.Error -> {
                     if (viewModel.recipes.size() == 0) {
+                        (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
+                        skeleton_search_results.visibility = View.GONE
+                        result_message.visibility = View.VISIBLE
                         result_message.text = it.message
                     } else {
                         // TODO: display smaller error message if list already set

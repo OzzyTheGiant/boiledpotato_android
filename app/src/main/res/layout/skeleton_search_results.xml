@@ -1,0 +1,5 @@
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/skeleton_search_result_height"
+    android:layout_marginTop="@dimen/padding_viewport"
+    android:background="@color/placeholder"/>
