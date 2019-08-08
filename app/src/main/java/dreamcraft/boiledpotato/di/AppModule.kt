@@ -1,10 +1,10 @@
 package dreamcraft.boiledpotato.di
 
-import android.util.SparseArray
 import com.google.gson.GsonBuilder
 import dreamcraft.boiledpotato.R
+import dreamcraft.boiledpotato.models.RecipesSearchResults
 import dreamcraft.boiledpotato.repositories.RecipeRepository
-import dreamcraft.boiledpotato.serialization.RecipeSparseArrayDeserializer
+import dreamcraft.boiledpotato.serialization.RecipesArrayDeserializer
 import dreamcraft.boiledpotato.services.RestApiHttpInterceptor
 import dreamcraft.boiledpotato.services.RestApiService
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
@@ -35,7 +35,7 @@ val appModule : Module = module {
 
         // create custom gson serialization object to deserialize search results into a SparseArray
         val gsonBuilder = GsonBuilder()
-        gsonBuilder.registerTypeAdapter(SparseArray::class.java, RecipeSparseArrayDeserializer())
+        gsonBuilder.registerTypeAdapter(RecipesSearchResults::class.java, RecipesArrayDeserializer())
         val gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create())
 
         // add all retrofit components together and build REST API service

@@ -1,7 +1,6 @@
 package dreamcraft.boiledpotato.services
 
-import android.util.SparseArray
-import dreamcraft.boiledpotato.models.Recipe
+import dreamcraft.boiledpotato.models.RecipesSearchResults
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,7 +13,7 @@ interface RestApiService {
         @Query("cuisine") cuisine: String,
         @Query("number") listSize: Int,
         @Query("offset") offset: Int
-    ): Call<SparseArray<Recipe>>
+    ): Call<RecipesSearchResults>
 
     @GET("recipes/{id}/analyzedInstructions?stepBreakdown=false")
     fun getRecipeInstructions(@Path("id") recipeId: Int)

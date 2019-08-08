@@ -1,7 +1,6 @@
 package dreamcraft.boiledpotato.repositories
 
-import android.util.SparseArray
-import dreamcraft.boiledpotato.models.Recipe
+import dreamcraft.boiledpotato.models.RecipesSearchResults
 import dreamcraft.boiledpotato.services.RestApiService
 import dreamcraft.boiledpotato.services.RestApiServiceCallback
 import org.koin.core.KoinComponent
@@ -15,11 +14,11 @@ class RecipeRepository : KoinComponent {
         cuisine: String,
         resultSize: Int,
         offset: Int = 0,
-        callback: (Resource<SparseArray<Recipe>>) -> Unit
-    ) : Resource<SparseArray<Recipe>> {
+        callback: (Resource<RecipesSearchResults>) -> Unit
+    ) : Resource<RecipesSearchResults> {
         restApiService
             .getRecipes(searchKeywords, cuisine, resultSize, offset)
-            .enqueue(RestApiServiceCallback<SparseArray<Recipe>>(callback))
-        return Resource.Loading<SparseArray<Recipe>>()
+            .enqueue(RestApiServiceCallback(callback))
+        return Resource.Loading()
     }
 }
