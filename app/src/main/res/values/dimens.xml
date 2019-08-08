@@ -15,4 +15,8 @@
     <dimen name="button_cuisine_drawable_padding">-4sp</dimen>
     <dimen name="line_spacing_search_component">20dp</dimen>
     <dimen name="skeleton_search_result_height">60dp</dimen>
+    <dimen name="font_size_button_small">11sp</dimen>
+    <dimen name="button_icon_spacing_left">4dp</dimen>
+    <dimen name="padding_center_text">32dp</dimen>
+    <dimen name="icon_size_error">48dp</dimen>
 </resources>
