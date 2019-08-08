@@ -59,7 +59,7 @@
 
         <Button
             android:id="@+id/search_button"
-            android:background="@drawable/button_background_yellow"
+            android:background="@drawable/button_background_primary"
             android:drawableTop="@drawable/ic_search_black_32dp"
             android:layout_width="@dimen/button_size_main"
             android:layout_height="@dimen/button_size_main"

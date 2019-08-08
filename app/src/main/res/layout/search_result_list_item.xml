@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_viewport"
     android:layout_marginBottom="@dimen/padding_viewport"
-    android:background="@drawable/search_result_list_item_background"
+    android:background="@drawable/button_background_accent"
     android:clickable="true"
     android:focusable="true">
 
