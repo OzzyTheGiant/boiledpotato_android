@@ -15,16 +15,16 @@ class RestApiServiceCallback<T>(
         if (response.isSuccessful && responseBody != null) {
             sendResource(Resource.Success(responseBody))
         } else {
-            val error = response.errorBody()?.string() ?: "Server Error: Please try again"
+            val error = response.errorBody()?.string() ?: "500"
             sendResource(Resource.Error(error))
         }
     }
 
     override fun onFailure(call: Call<T>, error: Throwable) {
         if (error is IOException) {
-            sendResource(Resource.Error("Network Error: Swipe down to try again"))
+            sendResource(Resource.Error("000"))
         } else {
-            sendResource(Resource.Error("Data Error: Unable to properly display search results"))
+            sendResource(Resource.Error("400"))
         }
     }
 }

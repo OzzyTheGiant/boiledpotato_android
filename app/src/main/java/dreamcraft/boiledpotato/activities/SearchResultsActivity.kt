@@ -99,12 +99,20 @@ class SearchResultsActivity : AppCompatActivity() {
 
     /** show error message on entire activity or at the bottom of a results list */
     private fun displayErrorMessage(message: String) {
+        var errorMessage = when(message) { // use error code or http error message
+            "000" -> resources.getString(R.string.NETWORK_ERROR)
+            "400" -> resources.getString(R.string.DATA_ERROR)
+            "500" -> resources.getString(R.string.SERVER_ERROR)
+            else -> message
+        }; errorMessage += ": " + resources.getString(R.string.try_again)
+
         if (viewModel.recipes.size() == 0) {
             skeleton_search_results.stopShimmer()
             skeleton_search_results.visibility = View.GONE
+            error_text.text = errorMessage
             error_message.visibility = View.VISIBLE
-            error_text.text = message
         } else {
+            button_retry_load.text = errorMessage
             button_load_more.visibility = View.GONE
             button_retry_load.visibility = View.VISIBLE
         }
