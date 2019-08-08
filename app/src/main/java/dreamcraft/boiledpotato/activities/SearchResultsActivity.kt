@@ -25,6 +25,8 @@ class SearchResultsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
 
+        back_button.setOnClickListener { this.finish() }
+
         // insert adapter and layout manager to search results recycler view
         recycler_view.adapter = SearchResultsRecyclerViewAdapter(viewModel.recipes)
         recycler_view.layoutManager = LinearLayoutManager(this)
