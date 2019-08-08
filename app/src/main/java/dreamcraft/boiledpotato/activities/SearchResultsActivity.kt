@@ -1,18 +1,18 @@
 package dreamcraft.boiledpotato.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
-import dreamcraft.boiledpotato.models.Recipe
+import dreamcraft.boiledpotato.models.RecipesSearchResults
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import kotlinx.android.synthetic.main.activity_search_results.*
+import kotlinx.android.synthetic.main.error_message.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -30,42 +30,81 @@ class SearchResultsActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         observeRecipes()
 
-        viewModel.getRecipes(
-            intent.getStringExtra(IntentExtras.SEARCH),
-            intent.getStringExtra(IntentExtras.CUISINE)
-        )
+        setClickListeners()
+
+        viewModel.searchKeywords = intent.getStringExtra(IntentExtras.SEARCH)
+        viewModel.cuisine = intent.getStringExtra(IntentExtras.CUISINE)
+        viewModel.getRecipes()
     }
 
-    /** notify recycler view that the array of recipes has been given more recipes */
+    /** set click listener for Load More button and Retry buttons to get paginated search results */
+    private fun setClickListeners() {
+        val clickListener = View.OnClickListener { viewModel.getRecipes() }
+        button_load_more.setOnClickListener(clickListener)
+        button_retry_load.setOnClickListener(clickListener)
+        button_retry.setOnClickListener(clickListener)
+    }
+
+    /** notify recycler view when the array of recipes has been given more recipes */
     private fun observeRecipes() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<SparseArray<Recipe>>> {
+        viewModel.resourceLiveData.observe(this, Observer<Resource<RecipesSearchResults>> {
             when(it) {
-                is Resource.Loading -> {
-                    result_message.text = getString(R.string.status_loading)
-                }
-                is Resource.Success -> {
-                    val count = viewModel.recipes.size() % maxResultsSize
-                    val resultSize = if (count > 0) count else maxResultsSize
-                    // check if data is already present in the activity
-                    if (viewModel.recipes.size() in 1..maxResultsSize) {
-                        (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
-                        skeleton_search_results.visibility = View.GONE
-                        result_message.visibility = View.GONE
-                        recycler_view.visibility = View.VISIBLE
-                    }
-                    recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultSize, resultSize)
-                }
-                is Resource.Error -> {
-                    if (viewModel.recipes.size() == 0) {
-                        (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
-                        skeleton_search_results.visibility = View.GONE
-                        result_message.visibility = View.VISIBLE
-                        result_message.text = it.message
-                    } else {
-                        // TODO: display smaller error message if list already set
-                    }
-                }
+                is Resource.Loading -> displayLoadingIndicator()
+                is Resource.Success -> displaySearchResults()
+                is Resource.Error -> displayErrorMessage(it.message ?: "")
             }
         })
+    }
+
+    /** display skeleton views or loading indicator depending on if recipe list is already loaded */
+    private fun displayLoadingIndicator() {
+        if (viewModel.recipes.size() == 0) {
+            error_message.visibility = View.GONE
+            skeleton_search_results.visibility = View.VISIBLE
+
+            if (!skeleton_search_results.isShimmerStarted) {
+                skeleton_search_results.startShimmer()
+            }
+        } else {
+            button_load_more.visibility = View.GONE
+            button_retry_load.visibility = View.GONE
+            loading_indicator.visibility = View.VISIBLE
+        }
+    }
+
+    /** reveal search results using RecyclerView */
+    private fun displaySearchResults() {
+        val count = viewModel.recipes.size() % maxResultsSize
+        val resultSize = if (count > 0) count else maxResultsSize
+
+        // check if it's the first page of search results to run this code once
+        if (viewModel.recipes.size() in 1..maxResultsSize) {
+            (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
+            skeleton_search_results.visibility = View.GONE
+            recycler_view.visibility = View.VISIBLE
+        }
+
+        // display "Load More" button if results are paginated and not all results are loaded
+        if (viewModel.totalResults > viewModel.recipes.size()) {
+            button_load_more.visibility = View.VISIBLE
+        } else { // otherwise hide
+            button_load_more.visibility = View.GONE
+        }
+
+        button_retry_load.visibility = View.GONE // remove retry button used for errors
+        recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultSize, resultSize)
+    }
+
+    /** show error message on entire activity or at the bottom of a results list */
+    private fun displayErrorMessage(message: String) {
+        if (viewModel.recipes.size() == 0) {
+            skeleton_search_results.stopShimmer()
+            skeleton_search_results.visibility = View.GONE
+            error_message.visibility = View.VISIBLE
+            error_text.text = message
+        } else {
+            button_load_more.visibility = View.GONE
+            button_retry_load.visibility = View.VISIBLE
+        }
     }
 }
