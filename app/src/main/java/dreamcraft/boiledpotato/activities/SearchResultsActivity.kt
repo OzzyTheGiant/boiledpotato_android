@@ -3,6 +3,7 @@ package dreamcraft.boiledpotato.activities
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -83,6 +84,7 @@ class SearchResultsActivity : AppCompatActivity() {
         if (viewModel.recipes.size() in 1..maxResultsSize) {
             (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
             skeleton_search_results.visibility = View.GONE
+            activity_body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
             recycler_view.visibility = View.VISIBLE
         }
 
@@ -93,7 +95,9 @@ class SearchResultsActivity : AppCompatActivity() {
             button_load_more.visibility = View.GONE
         }
 
-        button_retry_load.visibility = View.GONE // remove retry button used for errors
+        // remove retry button used for errors and the loading indicator
+        button_retry_load.visibility = View.GONE
+        loading_indicator.visibility = View.GONE
         recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultSize, resultSize)
     }
 
