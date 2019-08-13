@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_body"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SearchResultsActivity">
@@ -58,48 +59,53 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        style="@style/component"
-        android:id="@+id/recycler_view"
-        android:paddingLeft="@dimen/padding_viewport"
-        android:paddingRight="@dimen/padding_viewport"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="invisible"
+        android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/header_component"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Button
-        style="@style/load_more_button"
-        android:id="@+id/button_load_more"
-        android:text="@string/button_load_more"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_viewport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        style="@style/icon_text_button"
-        android:id="@+id/button_retry_load"
-        android:text=""
-        android:drawableStart="@drawable/ic_error_red_32dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_viewport"
+                android:paddingRight="@dimen/padding_viewport"
+                android:layout_marginBottom="@dimen/padding_viewport"
+                android:scrollbars="none"
+                android:visibility="invisible"/>
 
-    <ProgressBar
-        style="@style/load_more_button"
-        android:id="@+id/loading_indicator"
-        android:background="@drawable/button_background_primary"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+            <Button
+                style="@style/load_more_button"
+                android:id="@+id/button_load_more"
+                android:text="@string/button_load_more"
+                android:visibility="gone"/>
+
+            <Button
+                style="@style/icon_text_button"
+                android:id="@+id/button_retry_load"
+                android:text=""
+                android:drawableStart="@drawable/ic_error_red_32dp"
+                android:visibility="gone"/>
+
+            <ProgressBar
+                style="@style/load_more_button"
+                android:id="@+id/loading_indicator"
+                android:background="@drawable/button_background_primary"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <!-- error message if list of recipes has not loaded yet -->
     <include
