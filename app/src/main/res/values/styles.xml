@@ -44,7 +44,7 @@
 
     <style name="load_more_button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/skeleton_search_result_height</item>
+        <item name="android:layout_height">@dimen/button_load_more_height</item>
         <item name="android:layout_marginStart">@dimen/padding_viewport</item>
         <item name="android:layout_marginEnd">@dimen/padding_viewport</item>
         <item name="android:background">@drawable/button_background_primary_dark</item>
@@ -69,4 +69,5 @@
         <item name="android:layout_height">@dimen/button_size_main</item>
         <item name="android:background">@drawable/button_background_primary_dark</item>
     </style>
+    <dimen name="button_load_more_height">60dp</dimen>
 </resources>

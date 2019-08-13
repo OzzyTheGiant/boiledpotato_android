@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_viewport"
     android:layout_marginBottom="@dimen/padding_viewport"
-    android:background="@drawable/button_background_accent"
-    android:clickable="true"
-    android:focusable="true">
+    card_view:cardCornerRadius="@dimen/border_radius"
+    card_view:cardBackgroundColor="@color/accent">
 
-    <ImageView
-        android:id="@+id/recipe_image"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.25"
-        android:layout_height="match_parent"
-        android:background="@color/primary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:ignore="ContentDescription"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/recipe_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:padding="@dimen/padding_viewport"
-        android:text="@string/placeholder_text"
-        android:textColor="#FFFFFF"
-        android:lines="2"
-        android:maxLines="2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/recipe_image"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_viewport"
+            android:text="@string/placeholder_text"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/font_size_heading_search_result"
+            android:lines="2"
+            android:maxLines="2"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
