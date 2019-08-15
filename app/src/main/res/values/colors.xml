@@ -6,4 +6,5 @@
     <color name="neutral">#000000</color>
     <color name="placeholder">#BBBBBB</color>
     <color name="activity_background">#FFF9C4</color>
+    <color name="white">#FFFFFF</color>
 </resources>

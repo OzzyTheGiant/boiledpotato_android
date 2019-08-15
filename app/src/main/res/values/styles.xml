@@ -13,8 +13,23 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="dark_component" parent="@style/component">
+    <style name="padded_component" parent="@style/component">
+        <item name="android:paddingTop">@dimen/padding_viewport</item>
+        <item name="android:paddingBottom">@dimen/padding_viewport</item>
+        <item name="android:paddingLeft">@dimen/padding_viewport</item>
+        <item name="android:paddingRight">@dimen/padding_viewport</item>
+    </style>
+
+    <style name="component_color_neutral" parent="@style/padded_component">
         <item name="android:background">@color/neutral</item>
+    </style>
+
+    <style name="component_color_accent" parent="@style/padded_component">
+        <item name="android:background">@color/accent</item>
+    </style>
+
+    <style name="component_color_primary" parent="@style/padded_component">
+        <item name="android:background">@color/primary</item>
     </style>
 
     <style name="heading">
@@ -64,10 +79,18 @@
         <item name="android:paddingStart">@dimen/padding_viewport</item>
         <item name="android:paddingEnd">@dimen/padding_viewport</item>
     </style>
+
     <style name="button_small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/button_size_main</item>
         <item name="android:background">@drawable/button_background_primary_dark</item>
     </style>
-    <dimen name="button_load_more_height">60dp</dimen>
+
+    <style name="recipe_label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

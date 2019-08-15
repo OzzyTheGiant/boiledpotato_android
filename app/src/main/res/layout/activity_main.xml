@@ -8,7 +8,7 @@
     tools:context=".activities.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/dark_component"
+        style="@style/component_color_neutral"
         android:id="@+id/search_component"
         android:paddingLeft="@dimen/padding_viewport"
         android:paddingRight="@dimen/padding_viewport"

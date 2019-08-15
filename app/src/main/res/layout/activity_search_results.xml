@@ -10,7 +10,7 @@
 
     <!-- Custom activity bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/dark_component"
+        style="@style/component_color_neutral"
         android:id="@+id/header_component"
         android:padding="@dimen/padding_viewport"
         app:layout_constraintTop_toTopOf="parent"

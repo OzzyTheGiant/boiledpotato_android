@@ -7,4 +7,106 @@
     android:layout_height="match_parent"
     tools:context=".activities.RecipeActivity">
 
+    <ImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/skeleton_search_result_height"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        style="@style/component_color_accent"
+        android:id="@+id/recipe_name"
+        android:text="@string/placeholder_text"
+        android:background="@color/accent"
+        android:textColor="@color/white"
+        android:textFontWeight="bold"
+        android:textSize="@dimen/font_size_heading_recipe"
+        android:lineHeight="@dimen/line_spacing_heading_recipe"
+        app:layout_constraintTop_toBottomOf="@id/recipe_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="UnusedAttribute"/>
+
+    <LinearLayout
+        style="@style/component_color_neutral"
+        android:id="@+id/servings"
+        android:paddingTop="@dimen/padding_recipe_label"
+        app:layout_constraintTop_toBottomOf="@id/recipe_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="@string/recipe_label_servings"
+            android:drawableStart="@drawable/ic_servings_yellow_32dp"
+            android:drawablePadding="@dimen/padding_viewport"/>
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="0"
+            android:gravity="end"
+            tools:ignore="HardcodedText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/component_color_neutral"
+        android:id="@+id/prep_time"
+        app:layout_constraintTop_toBottomOf="@id/servings"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="@string/recipe_label_prep_time"
+            android:drawableStart="@drawable/ic_time_yellow_32dp"
+            android:drawablePadding="@dimen/padding_viewport"/>
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="0 min"
+            android:gravity="end"
+            tools:ignore="HardcodedText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/component_color_neutral"
+        android:id="@+id/cook_time"
+        android:paddingBottom="@dimen/padding_recipe_label"
+        app:layout_constraintTop_toBottomOf="@id/prep_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="@string/recipe_label_cook_time"
+            android:drawableStart="@drawable/ic_time_yellow_32dp"
+            android:drawablePadding="@dimen/padding_viewport"/>
+
+        <TextView
+            style="@style/recipe_label"
+            android:text="0 min"
+            android:gravity="end"
+            tools:ignore="HardcodedText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/component_color_primary"
+        android:id="@+id/ingredient_list"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cook_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <LinearLayout
+        style="@style/padded_component"
+        android:id="@+id/instructions_list"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ingredient_list"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
