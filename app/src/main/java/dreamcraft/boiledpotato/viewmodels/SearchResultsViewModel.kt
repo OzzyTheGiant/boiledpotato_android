@@ -4,7 +4,7 @@ import android.util.SparseArray
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dreamcraft.boiledpotato.models.Recipe
-import dreamcraft.boiledpotato.models.RecipesSearchResults
+import dreamcraft.boiledpotato.models.JsonRecipesList
 import dreamcraft.boiledpotato.repositories.RecipeRepository
 import dreamcraft.boiledpotato.repositories.Resource
 import org.koin.core.KoinComponent
@@ -18,7 +18,7 @@ class SearchResultsViewModel : ViewModel(), KoinComponent {
 
     lateinit var searchKeywords: String
     lateinit var cuisine: String
-    val resourceLiveData = MutableLiveData<Resource<RecipesSearchResults>>()
+    val resourceLiveData = MutableLiveData<Resource<JsonRecipesList>>()
     val recipes = SparseArray<Recipe>()
     var totalResults = 0
 

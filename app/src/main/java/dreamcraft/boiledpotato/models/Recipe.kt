@@ -2,6 +2,7 @@ package dreamcraft.boiledpotato.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.SparseArray
 
 data class Recipe(
     val id: Int,
@@ -11,8 +12,8 @@ data class Recipe(
 ) : Parcelable {
 
     var servings = 0
-    lateinit var ingredients: Array<Ingredient>
-    lateinit var instructions: Array<RecipeInstructions>
+    lateinit var ingredients: SparseArray<String>
+    lateinit var instructions: SparseArray<String>
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

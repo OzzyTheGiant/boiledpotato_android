@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
-import dreamcraft.boiledpotato.models.RecipesSearchResults
+import dreamcraft.boiledpotato.models.JsonRecipesList
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import kotlinx.android.synthetic.main.activity_search_results.*
@@ -50,7 +50,7 @@ class SearchResultsActivity : AppCompatActivity() {
 
     /** notify recycler view when the array of recipes has been given more recipes */
     private fun observeRecipes() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<RecipesSearchResults>> {
+        viewModel.resourceLiveData.observe(this, Observer<Resource<JsonRecipesList>> {
             when(it) {
                 is Resource.Loading -> displayLoadingIndicator()
                 is Resource.Success -> displaySearchResults()

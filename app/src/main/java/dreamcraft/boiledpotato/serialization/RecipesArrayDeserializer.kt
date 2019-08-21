@@ -5,11 +5,11 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import dreamcraft.boiledpotato.models.Recipe
-import dreamcraft.boiledpotato.models.RecipesSearchResults
+import dreamcraft.boiledpotato.models.JsonRecipesList
 import java.lang.reflect.Type
 
-class RecipesArrayDeserializer : JsonDeserializer<RecipesSearchResults> {
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): RecipesSearchResults {
+class RecipesArrayDeserializer : JsonDeserializer<JsonRecipesList> {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): JsonRecipesList {
         val recipes = SparseArray<Recipe>()
         val totalResults = json?.asJsonObject?.get("totalResults")?.asInt ?: 0
         val expires = json?.asJsonObject?.get("expires")?.asLong ?: 0
@@ -27,6 +27,6 @@ class RecipesArrayDeserializer : JsonDeserializer<RecipesSearchResults> {
             }
         }
 
-        return RecipesSearchResults(recipes, totalResults, expires)
+        return JsonRecipesList(recipes, totalResults, expires)
     }
 }
