@@ -1,5 +1,6 @@
 package dreamcraft.boiledpotato.di
 
+import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.google.gson.GsonBuilder
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.models.JsonRecipeDetails
@@ -31,10 +32,11 @@ val appModule : Module = module {
         val webApiHost = androidContext().getString(R.string.WEB_API_URL)
         val webApiUrl = "$webApiProtocol://$webApiHost"
         val webApiKey = androidContext().getString(R.string.WEB_API_KEY)
-
+        
         // create custom http client to add required api headers
         val httpClient = OkHttpClient.Builder()
             .addInterceptor(RestApiHttpInterceptor(webApiHost, webApiKey))
+            .addInterceptor(OkLogInterceptor.builder().build())
             .build()
 
         // create custom gson serialization object to deserialize search results into a SparseArray
