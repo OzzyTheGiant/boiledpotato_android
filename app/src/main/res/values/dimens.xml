@@ -10,9 +10,11 @@
     <dimen name="line_spacing_search_component">20dp</dimen>
     <dimen name="font_size_main">16sp</dimen>
     <dimen name="font_size_heading">20sp</dimen>
+    <dimen name="line_spacing_heading_recipe">24dp</dimen>
     <dimen name="font_size_cuisine_button">8sp</dimen>
     <dimen name="font_size_button_small">11sp</dimen>
     <dimen name="font_size_heading_search_result">12sp</dimen>
+    <dimen name="font_size_heading_recipe">18sp</dimen>
     <dimen name="border_radius">4dp</dimen>
     <dimen name="button_size_main">32dp</dimen>
     <dimen name="button_size_cuisine">72dp</dimen>
@@ -22,6 +24,5 @@
     <dimen name="button_load_more_height">60dp</dimen>
     <dimen name="icon_size_error">48dp</dimen>
     <dimen name="skeleton_search_result_height">160dp</dimen>
-    <dimen name="font_size_heading_recipe">18sp</dimen>
-    <dimen name="line_spacing_heading_recipe">24dp</dimen>
+    <dimen name="skeleton_list_item_height">28dp</dimen>
 </resources>

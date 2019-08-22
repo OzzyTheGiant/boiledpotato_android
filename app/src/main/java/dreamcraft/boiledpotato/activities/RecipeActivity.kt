@@ -8,6 +8,7 @@ import android.text.SpannedString
 import android.text.TextUtils
 import android.text.style.BulletSpan
 import android.util.SparseArray
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -41,6 +42,11 @@ class RecipeActivity : AppCompatActivity() {
         viewModel.resourceLiveData.observe(this, Observer<Resource<JsonRecipeDetails>> {
             when(it) {
                 is Resource.Success -> {
+                    ingredients_placeholder.stopShimmer()
+                    instructions_placeholder.stopShimmer()
+                    ingredients_placeholder.visibility = View.GONE
+                    instructions_placeholder.visibility = View.GONE
+
                     servings.text = getString(R.string.recipe_label_servings, viewModel.recipe.servings.toString())
                     ingredients_list.text = createBulletList(viewModel.recipe.ingredients)
                     instructions_list.text = createBulletList(viewModel.recipe.instructions)
@@ -52,6 +58,7 @@ class RecipeActivity : AppCompatActivity() {
         })
     }
 
+    // TODO: add number list for instructions
     private fun createBulletList(stringArray: SparseArray<String>) : CharSequence {
         var textList = SpannedString("") // will hold all the list items in one string of text
 
