@@ -22,6 +22,7 @@
     <string name="SERVER_ERROR">Server Error</string>
     <string name="NETWORK_ERROR">Slow or No Internet Connection</string>
     <string name="DATA_ERROR">Error while Processing Data</string>
+    <string name="NOT_FOUND_ERROR">No Results Found</string>
     <string name="try_again">Tap to try again</string>
     <string name="recipe_label_servings">%1$s Servings</string>
     <string name="recipe_label_prep_time">Prep Time</string>

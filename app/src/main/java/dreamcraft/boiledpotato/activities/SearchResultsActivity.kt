@@ -81,11 +81,16 @@ class SearchResultsActivity : AppCompatActivity() {
         val resultSize = if (count > 0) count else maxResultsSize
 
         // check if it's the first page of search results to run this code once
-        if (viewModel.recipes.size() in 1..maxResultsSize) {
-            (skeleton_search_results as ShimmerFrameLayout).stopShimmer()
+        if (viewModel.recipes.size() in 0..maxResultsSize) {
+            skeleton_search_results.stopShimmer()
             skeleton_search_results.visibility = View.GONE
-            activity_body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
-            recycler_view.visibility = View.VISIBLE
+
+            if (viewModel.recipes.size() == 0) { // if response was successful but array is empty
+                return displayErrorMessage(getString(R.string.NOT_FOUND_ERROR))
+            } else {
+                body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
+                recycler_view.visibility = View.VISIBLE
+            }
         }
 
         // display "Load More" button if results are paginated and not all results are loaded

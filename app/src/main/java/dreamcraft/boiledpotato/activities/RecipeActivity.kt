@@ -62,6 +62,9 @@ class RecipeActivity : AppCompatActivity() {
     private fun createBulletList(stringArray: SparseArray<String>, isNumbered: Boolean = false) : CharSequence {
         var textList = SpannedString("") // will hold all the list items in one string of text
 
+        // return a Not Found error message if array contains no list items
+        if (stringArray.size() == 0) return getString(R.string.NOT_FOUND_ERROR)
+
         for (i in 0 until stringArray.size()) {
             // create bullet span and then append to list item
             val span = if (isNumbered) NumberListSpan(16, 72, i + 1) else BulletSpan(20) // 20dp gap
