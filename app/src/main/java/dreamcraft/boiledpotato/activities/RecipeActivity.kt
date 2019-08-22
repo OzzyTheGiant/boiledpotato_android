@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.models.JsonRecipeDetails
 import dreamcraft.boiledpotato.repositories.Resource
+import dreamcraft.boiledpotato.utilities.NumberListSpan
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.activity_recipe.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,7 +50,7 @@ class RecipeActivity : AppCompatActivity() {
 
                     servings.text = getString(R.string.recipe_label_servings, viewModel.recipe.servings.toString())
                     ingredients_list.text = createBulletList(viewModel.recipe.ingredients)
-                    instructions_list.text = createBulletList(viewModel.recipe.instructions)
+                    instructions_list.text = createBulletList(viewModel.recipe.instructions, true)
                 }
                 is Resource.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
@@ -58,17 +59,16 @@ class RecipeActivity : AppCompatActivity() {
         })
     }
 
-    // TODO: add number list for instructions
-    private fun createBulletList(stringArray: SparseArray<String>) : CharSequence {
+    private fun createBulletList(stringArray: SparseArray<String>, isNumbered: Boolean = false) : CharSequence {
         var textList = SpannedString("") // will hold all the list items in one string of text
 
         for (i in 0 until stringArray.size()) {
             // create bullet span and then append to list item
-            val span = BulletSpan(20) // 20dp gap
+            val span = if (isNumbered) NumberListSpan(16, 72, i + 1) else BulletSpan(20) // 20dp gap
             val listItem = SpannableString(stringArray[i] + "\n")
 
             listItem.setSpan(span, 0, stringArray[i].length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            textList = TextUtils.concat(textList, listItem) as SpannedString
+            textList = TextUtils.concat(textList, listItem) as SpannedString // merge list items
         }
 
         return textList
