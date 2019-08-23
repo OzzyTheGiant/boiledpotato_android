@@ -64,14 +64,11 @@ class SearchResultsActivity : AppCompatActivity() {
         if (viewModel.recipes.size() == 0) {
             error_message.visibility = View.GONE
             skeleton_search_results.visibility = View.VISIBLE
-
-            if (!skeleton_search_results.isShimmerStarted) {
-                skeleton_search_results.startShimmer()
-            }
+            skeleton_search_results.showShimmer(true)
         } else {
             button_load_more.visibility = View.GONE
             button_retry_load.visibility = View.GONE
-            loading_indicator.visibility = View.VISIBLE
+            loading_indicator.visibility = View.VISIBLE // button, not a shimmer layout
         }
     }
 
@@ -82,7 +79,7 @@ class SearchResultsActivity : AppCompatActivity() {
 
         // check if it's the first page of search results to run this code once
         if (viewModel.recipes.size() in 0..maxResultsSize) {
-            skeleton_search_results.stopShimmer()
+            skeleton_search_results.hideShimmer()
             skeleton_search_results.visibility = View.GONE
 
             if (viewModel.recipes.size() == 0) { // if response was successful but array is empty
@@ -109,20 +106,21 @@ class SearchResultsActivity : AppCompatActivity() {
     /** show error message on entire activity or at the bottom of a results list */
     private fun displayErrorMessage(message: String) {
         var errorMessage = when(message) { // use error code or http error message
-            "000" -> resources.getString(R.string.NETWORK_ERROR)
-            "400" -> resources.getString(R.string.DATA_ERROR)
-            "500" -> resources.getString(R.string.SERVER_ERROR)
+            "000" -> getString(R.string.NETWORK_ERROR)
+            "400" -> getString(R.string.DATA_ERROR)
+            "500" -> getString(R.string.SERVER_ERROR)
             else -> message
-        }; errorMessage += ": " + resources.getString(R.string.try_again)
+        }; errorMessage += ": " + getString(R.string.try_again)
 
         if (viewModel.recipes.size() == 0) {
-            skeleton_search_results.stopShimmer()
+            skeleton_search_results.hideShimmer()
             skeleton_search_results.visibility = View.GONE
             error_text.text = errorMessage
             error_message.visibility = View.VISIBLE
         } else {
             button_retry_load.text = errorMessage
             button_load_more.visibility = View.GONE
+            loading_indicator.visibility = View.GONE
             button_retry_load.visibility = View.VISIBLE
         }
     }
