@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activities.RecipeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".activities.RecipeActivity">
+        android:layout_height="wrap_content">
 
-        <!-- TODO: add error message for http request -->
         <ImageView
             android:id="@+id/recipe_image"
             android:layout_width="match_parent"
@@ -76,7 +75,7 @@
         <com.facebook.shimmer.ShimmerFrameLayout
             style="@style/component_color_primary"
             android:id="@+id/ingredients_placeholder"
-            android:layout_height="144dp"
+            android:layout_height="@dimen/list_min_height"
             app:shimmer_base_alpha="0.7"
             app:shimmer_highlight_alpha="0.9"
             app:layout_constraintTop_toBottomOf="@id/ingredients_heading"
@@ -100,7 +99,7 @@
         <TextView
             style="@style/padded_component"
             android:id="@+id/instructions_list"
-            android:minHeight="144dp"
+            android:minHeight="@dimen/list_min_height"
             android:textSize="@dimen/font_size_main"
             android:lineSpacingExtra="@dimen/padding_viewport"
             app:layout_constraintTop_toBottomOf="@id/instructions_heading"
@@ -120,6 +119,14 @@
             <include layout="@layout/skeleton_bullet_list"/>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <!-- error message if list of ingredients/instructions could not load or be processed -->
+        <include
+            layout="@layout/error_message"
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

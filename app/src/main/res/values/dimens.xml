@@ -25,4 +25,5 @@
     <dimen name="icon_size_error">48dp</dimen>
     <dimen name="skeleton_search_result_height">160dp</dimen>
     <dimen name="skeleton_list_item_height">28dp</dimen>
+    <dimen name="list_min_height">144dp</dimen>
 </resources>
