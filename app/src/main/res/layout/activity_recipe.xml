@@ -52,22 +52,16 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            style="@style/component_color_primary"
+            style="@style/list_heading_color_primary"
             android:id="@+id/ingredients_heading"
-            android:text="@string/ingredients"
-            android:textColor="@color/accent"
-            android:textSize="@dimen/font_size_heading"
             app:layout_constraintTop_toBottomOf="@id/prep_time"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            style="@style/component_color_primary"
+            style="@style/list_color_primary"
             android:id="@+id/ingredients_list"
-            android:minHeight="144dp"
-            android:textSize="@dimen/font_size_main"
             android:textColor="@color/neutral"
-            android:lineSpacingExtra="@dimen/padding_viewport"
             app:layout_constraintTop_toBottomOf="@id/ingredients_heading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -87,21 +81,16 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <TextView
-            style="@style/padded_component"
+            style="@style/list_heading"
             android:id="@+id/instructions_heading"
             android:text="@string/instructions"
-            android:textColor="@color/accent"
-            android:textSize="@dimen/font_size_heading"
             app:layout_constraintTop_toBottomOf="@id/ingredients_list"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            style="@style/padded_component"
+            style="@style/list"
             android:id="@+id/instructions_list"
-            android:minHeight="@dimen/list_min_height"
-            android:textSize="@dimen/font_size_main"
-            android:lineSpacingExtra="@dimen/padding_viewport"
             app:layout_constraintTop_toBottomOf="@id/instructions_heading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -109,7 +98,7 @@
         <com.facebook.shimmer.ShimmerFrameLayout
             style="@style/padded_component"
             android:id="@+id/instructions_placeholder"
-            android:layout_height="144dp"
+            android:layout_height="@dimen/list_min_height"
             app:shimmer_base_alpha="0.7"
             app:shimmer_highlight_alpha="0.9"
             app:layout_constraintTop_toBottomOf="@id/instructions_heading"
@@ -126,6 +115,7 @@
             android:id="@+id/error_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/recipe_name"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

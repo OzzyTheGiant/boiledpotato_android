@@ -97,4 +97,24 @@
         <item name="android:paddingTop">@dimen/padding_recipe_label</item>
         <item name="android:paddingBottom">@dimen/padding_recipe_label</item>
     </style>
+
+    <style name="list_heading" parent="padded_component">
+        <item name="android:text">@string/ingredients</item>
+        <item name="android:textSize">@dimen/font_size_heading</item>
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <style name="list_heading_color_primary" parent="list_heading">
+        <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="list" parent="padded_component">
+        <item name="android:minHeight">@dimen/list_min_height</item>
+        <item name="android:textSize">@dimen/font_size_main</item>
+        <item name="android:lineSpacingExtra">@dimen/padding_viewport</item>
+    </style>
+
+    <style name="list_color_primary" parent="list">
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>
