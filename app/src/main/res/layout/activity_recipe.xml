@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/recipe_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/skeleton_search_result_height"
+            android:layout_height="@dimen/search_result_image_height"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"/>
 
