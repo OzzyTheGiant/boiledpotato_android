@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.models.JsonRecipeDetails
 import dreamcraft.boiledpotato.repositories.Resource
+import dreamcraft.boiledpotato.utilities.ImageLoader
 import dreamcraft.boiledpotato.utilities.NumberListSpan
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.activity_recipe.*
@@ -22,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeActivity : AppCompatActivity() {
     private val viewModel : RecipeViewModel by viewModel()
+    private lateinit var imageLoader : ImageLoader
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,10 @@ class RecipeActivity : AppCompatActivity() {
         servings.text = getString(R.string.recipe_label_servings, "0")
         prep_time.text = getString(R.string.min, viewModel.recipe.prepMinutes.toString())
 
+        // fetch image from internet/cache
+        imageLoader = ImageLoader(viewModel.recipe.imageFileName, recipe_image)
+        imageLoader.loadImageToView()
+
         // set click listeners
         button_retry.setOnClickListener { viewModel.getRecipeDetails() }
 
@@ -43,7 +49,6 @@ class RecipeActivity : AppCompatActivity() {
         // fill in missing data
         observeRecipeDetails()
         viewModel.getRecipeDetails()
-        // TODO: add image data
     }
 
     /** when body is fully drawn, change height of error_message to fit where labels and lists would be */
