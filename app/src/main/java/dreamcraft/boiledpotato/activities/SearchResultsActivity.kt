@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.facebook.shimmer.ShimmerFrameLayout
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
 import dreamcraft.boiledpotato.models.JsonRecipesList
 import dreamcraft.boiledpotato.repositories.Resource
+import dreamcraft.boiledpotato.utilities.Visibility
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import kotlinx.android.synthetic.main.activity_search_results.*
 import kotlinx.android.synthetic.main.error_message.*
@@ -52,59 +52,58 @@ class SearchResultsActivity : AppCompatActivity() {
     private fun observeRecipes() {
         viewModel.resourceLiveData.observe(this, Observer<Resource<JsonRecipesList>> {
             when(it) {
-                is Resource.Loading -> displayLoadingIndicator()
+                is Resource.Loading -> {
+                    toggleLoadingIndicators(View.VISIBLE)
+                    toggleErrorMessage(View.GONE)
+                    button_load_more.visibility = View.GONE
+                }
+                is Resource.Error -> {
+                    toggleLoadingIndicators(View.GONE)
+                    toggleErrorMessage(it.message ?: "")
+                    button_load_more.visibility = View.GONE
+                }
                 is Resource.Success -> displaySearchResults()
-                is Resource.Error -> displayErrorMessage(it.message ?: "")
             }
         })
     }
 
     /** display skeleton views or loading indicator depending on if recipe list is already loaded */
-    private fun displayLoadingIndicator() {
-        if (viewModel.recipes.size() == 0) {
-            error_message.visibility = View.GONE
-            skeleton_search_results.visibility = View.VISIBLE
-            skeleton_search_results.showShimmer(true)
-        } else {
-            button_load_more.visibility = View.GONE
-            button_retry_load.visibility = View.GONE
-            loading_indicator.visibility = View.VISIBLE // button, not a shimmer layout
+    private fun toggleLoadingIndicators(@Visibility visibility: Int) {
+        if (viewModel.recipes.size() in 1..maxResultsSize) { // first http call for recipes
+            skeleton_search_results.hideShimmer()
+            skeleton_search_results.visibility = View.GONE
+        }
+
+        if (viewModel.recipes.size() != 0) {
+            loading_indicator.visibility = visibility // button, not a shimmer layout
         }
     }
 
     /** reveal search results using RecyclerView */
     private fun displaySearchResults() {
-        val count = viewModel.recipes.size() % maxResultsSize
-        val resultSize = if (count > 0) count else maxResultsSize
+        // specify # of recipes the last http call had; Since Resource is Success, data is guaranteed
+        val resource = viewModel.resourceLiveData.value as Resource.Success
+        val resultsSize = resource.data!!.recipes.size()
 
-        // check if it's the first page of search results to run this code once
-        if (viewModel.recipes.size() in 0..maxResultsSize) {
-            skeleton_search_results.hideShimmer()
-            skeleton_search_results.visibility = View.GONE
+        toggleLoadingIndicators(View.GONE)
 
-            if (viewModel.recipes.size() == 0) { // if response was successful but array is empty
-                return displayErrorMessage(getString(R.string.NOT_FOUND_ERROR))
-            } else {
-                body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
-                recycler_view.visibility = View.VISIBLE
-            }
+        // check if it's the first page of search results to reveal RecyclerView on first http call
+        if (viewModel.recipes.size() == 0) { // if response was successful but array is empty
+            return toggleErrorMessage(getString(R.string.NOT_FOUND_ERROR))
+        } else if (viewModel.recipes.size() <= maxResultsSize) {
+            body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
+            recycler_view.visibility = View.VISIBLE
         }
 
         // display "Load More" button if results are paginated and not all results are loaded
-        if (viewModel.totalResults > viewModel.recipes.size()) {
-            button_load_more.visibility = View.VISIBLE
-        } else { // otherwise hide
-            button_load_more.visibility = View.GONE
-        }
+        button_load_more.visibility =
+            if (viewModel.totalResults > viewModel.recipes.size()) View.VISIBLE else View.GONE
 
-        // remove retry button used for errors and the loading indicator
-        button_retry_load.visibility = View.GONE
-        loading_indicator.visibility = View.GONE
-        recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultSize, resultSize)
+        recycler_view.adapter?.notifyItemRangeInserted(viewModel.recipes.size() - resultsSize, resultsSize)
     }
 
     /** show error message on entire activity or at the bottom of a results list */
-    private fun displayErrorMessage(message: String) {
+    private fun toggleErrorMessage(message: String) {
         var errorMessage = when(message) { // use error code or http error message
             "000" -> getString(R.string.NETWORK_ERROR)
             "400" -> getString(R.string.DATA_ERROR)
@@ -113,15 +112,19 @@ class SearchResultsActivity : AppCompatActivity() {
         }; errorMessage += ": " + getString(R.string.try_again)
 
         if (viewModel.recipes.size() == 0) {
-            skeleton_search_results.hideShimmer()
-            skeleton_search_results.visibility = View.GONE
             error_text.text = errorMessage
-            error_message.visibility = View.VISIBLE
         } else {
             button_retry_load.text = errorMessage
-            button_load_more.visibility = View.GONE
-            loading_indicator.visibility = View.GONE
-            button_retry_load.visibility = View.VISIBLE
+        }
+
+        toggleErrorMessage(View.VISIBLE)
+    }
+
+    private fun toggleErrorMessage(@Visibility visibility: Int) {
+        if (viewModel.recipes.size() == 0) {
+            error_message.visibility = visibility
+        } else {
+            button_retry_load.visibility = visibility
         }
     }
 }
