@@ -1,18 +1,21 @@
 package dreamcraft.boiledpotato.di
 
+import androidx.room.Room
 import com.github.simonpercic.oklog3.OkLogInterceptor
 import com.google.gson.GsonBuilder
 import dreamcraft.boiledpotato.R
-import dreamcraft.boiledpotato.models.JsonRecipeDetails
-import dreamcraft.boiledpotato.models.JsonRecipesList
+import dreamcraft.boiledpotato.database.AppDatabase
+import dreamcraft.boiledpotato.models.Recipe
+import dreamcraft.boiledpotato.models.RecipeSearchQuery
 import dreamcraft.boiledpotato.repositories.RecipeRepository
-import dreamcraft.boiledpotato.serialization.RecipeDetailsDeserializer
+import dreamcraft.boiledpotato.serialization.RecipeDeserializer
 import dreamcraft.boiledpotato.serialization.RecipesArrayDeserializer
 import dreamcraft.boiledpotato.services.RestApiHttpInterceptor
 import dreamcraft.boiledpotato.services.RestApiService
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -20,14 +23,19 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 val appModule : Module = module {
     viewModel { SearchResultsViewModel() }
     viewModel { RecipeViewModel() }
+
     single { RecipeRepository() }
     single(named("webApiResultsSize")) { 10 }
 
-    single<RestApiService> {
+    single { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "BoiledPotato").build() }
+    single { get<AppDatabase>().recipeDao() }
+
+    single { // Retrofit API service
         val webApiProtocol = androidContext().getString(R.string.WEB_API_PROTOCOL)
         val webApiHost = androidContext().getString(R.string.WEB_API_URL)
         val webApiUrl = "$webApiProtocol://$webApiHost"
@@ -41,8 +49,8 @@ val appModule : Module = module {
 
         // create custom gson serialization object to deserialize search results into a SparseArray
         val gsonBuilder = GsonBuilder()
-        gsonBuilder.registerTypeAdapter(JsonRecipesList::class.java, RecipesArrayDeserializer())
-        gsonBuilder.registerTypeAdapter(JsonRecipeDetails::class.java, RecipeDetailsDeserializer())
+        gsonBuilder.registerTypeAdapter(RecipeSearchQuery::class.java, RecipesArrayDeserializer())
+        gsonBuilder.registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
         val gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create())
 
         // add all retrofit components together and build REST API service
@@ -52,6 +60,6 @@ val appModule : Module = module {
             .addConverterFactory(gsonConverterFactory)
             .build()
 
-        retrofit.create(RestApiService::class.java)
+        retrofit.create<RestApiService>()
     }
 }
