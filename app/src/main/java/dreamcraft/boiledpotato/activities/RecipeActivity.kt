@@ -12,7 +12,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import dreamcraft.boiledpotato.R
-import dreamcraft.boiledpotato.models.JsonRecipeDetails
+import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.utilities.ImageLoader
 import dreamcraft.boiledpotato.utilities.NumberListSpan
@@ -45,8 +45,6 @@ class RecipeActivity : AppCompatActivity() {
 
         // adjust UI for error messages
         resizeErrorMessage()
-
-        // fill in missing data
         observeRecipeDetails()
         viewModel.getRecipeDetails()
     }
@@ -65,7 +63,7 @@ class RecipeActivity : AppCompatActivity() {
 
     /** create bullet lists for ingredients and recipe instructions when data is fetched from repository */
     private fun observeRecipeDetails() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<JsonRecipeDetails>> {
+        viewModel.resourceLiveData.observe(this, Observer<Resource<Recipe>> {
             when (it) {
                 is Resource.Loading -> displayLoadingIndicators()
                 is Resource.Success -> displayRecipeDetails()
@@ -84,18 +82,18 @@ class RecipeActivity : AppCompatActivity() {
     private fun displayRecipeDetails() {
         togglePlaceholders(View.GONE)
         servings.text = getString(R.string.recipe_label_servings, viewModel.recipe.servings.toString())
-        ingredients_list.text = createBulletList(viewModel.recipe.ingredients)
-        instructions_list.text = createBulletList(viewModel.recipe.instructions, true)
+        ingredients_list.text = viewModel.recipe.ingredients?.let { createBulletList(it) }
+        instructions_list.text = viewModel.recipe.instructions?.let { createBulletList(it, true) }
     }
 
     /** create an ordered list with bullets or numbers, merged into one string with line breaks */
-    private fun createBulletList(stringArray: SparseArray<String>, isNumbered: Boolean = false) : CharSequence {
+    private fun createBulletList(stringArray: List<String>, isNumbered: Boolean = false) : CharSequence {
         var textList = SpannedString("") // will hold all the list items in one string of text
 
         // return a Not Found error message if array contains no list items
-        if (stringArray.size() == 0) return getString(R.string.NOT_FOUND_ERROR)
+        if (stringArray.isEmpty()) return getString(R.string.NOT_FOUND_ERROR)
 
-        for (i in 0 until stringArray.size()) {
+        for (i in stringArray.indices) {
             // create bullet span and then append to list item
             val span = if (isNumbered) NumberListSpan(16, 72, i + 1) else BulletSpan(20) // 20dp gap
             val listItem = SpannableString(stringArray[i] + "\n")

@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
-import dreamcraft.boiledpotato.models.JsonRecipesList
+import dreamcraft.boiledpotato.models.RecipeSearchQuery
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.utilities.Visibility
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
@@ -50,7 +50,7 @@ class SearchResultsActivity : AppCompatActivity() {
 
     /** notify recycler view when the array of recipes has been given more recipes */
     private fun observeRecipes() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<JsonRecipesList>> {
+        viewModel.resourceLiveData.observe(this, Observer<Resource<RecipeSearchQuery>> {
             when(it) {
                 is Resource.Loading -> {
                     toggleLoadingIndicators(View.VISIBLE)
@@ -83,7 +83,7 @@ class SearchResultsActivity : AppCompatActivity() {
     private fun displaySearchResults() {
         // specify # of recipes the last http call had; Since Resource is Success, data is guaranteed
         val resource = viewModel.resourceLiveData.value as Resource.Success
-        val resultsSize = resource.data!!.recipes.size()
+        val resultsSize = resource.data!!.recipes?.size ?: 0
 
         toggleLoadingIndicators(View.GONE)
 
