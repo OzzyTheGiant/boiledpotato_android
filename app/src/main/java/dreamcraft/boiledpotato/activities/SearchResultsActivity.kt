@@ -88,9 +88,7 @@ class SearchResultsActivity : AppCompatActivity() {
         toggleLoadingIndicators(View.GONE)
 
         // check if it's the first page of search results to reveal RecyclerView on first http call
-        if (viewModel.recipes.size() == 0) { // if response was successful but array is empty
-            return toggleErrorMessage(getString(R.string.NOT_FOUND_ERROR))
-        } else if (viewModel.recipes.size() <= maxResultsSize) {
+        if (viewModel.recipes.size() <= maxResultsSize) {
             body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
             recycler_view.visibility = View.VISIBLE
         }
@@ -108,6 +106,7 @@ class SearchResultsActivity : AppCompatActivity() {
             "000" -> getString(R.string.NETWORK_ERROR)
             "400" -> getString(R.string.DATA_ERROR)
             "500" -> getString(R.string.SERVER_ERROR)
+            "404" -> getString(R.string.NOT_FOUND_ERROR)
             else -> message
         }; errorMessage += ": " + getString(R.string.try_again)
 
