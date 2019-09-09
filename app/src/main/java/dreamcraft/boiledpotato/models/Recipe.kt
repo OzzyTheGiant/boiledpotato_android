@@ -2,21 +2,27 @@ package dreamcraft.boiledpotato.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.SparseArray
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import dreamcraft.boiledpotato.database.TypeConverter
 
+@Entity(tableName="Recipes")
+@TypeConverters(TypeConverter::class)
 data class Recipe(
-    val id: Int,
-    val name: String,
-    val prepMinutes: Int,
-    val imageFileName: String
+    @PrimaryKey @ColumnInfo(name="ID")  var id: Long = 0,
+    @ColumnInfo(name="Name")            var name: String = "",
+    @ColumnInfo(name="PreparationTime") var prepMinutes: Int = 0,
+    @ColumnInfo(name="ImageFileName")   var imageFileName: String = ""
 ) : Parcelable {
 
-    var servings = 0
-    lateinit var ingredients: SparseArray<String>
-    lateinit var instructions: SparseArray<String>
+    @ColumnInfo(name = "Servings") var servings = 0
+    @ColumnInfo(name = "Ingredients") var ingredients: List<String>? = null
+    @ColumnInfo(name = "Instructions") var instructions: List<String>? = null
 
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
+        parcel.readLong(),
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readString() ?: ""
@@ -25,7 +31,7 @@ data class Recipe(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeLong(id)
         parcel.writeString(name)
         parcel.writeInt(prepMinutes)
         parcel.writeString(imageFileName)
