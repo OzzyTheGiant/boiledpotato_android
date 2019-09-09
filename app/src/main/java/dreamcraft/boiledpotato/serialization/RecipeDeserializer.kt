@@ -1,25 +1,26 @@
 package dreamcraft.boiledpotato.serialization
 
-import android.util.SparseArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import dreamcraft.boiledpotato.models.JsonRecipeDetails
+import dreamcraft.boiledpotato.models.Recipe
 import java.lang.reflect.Type
 
-class RecipeDetailsDeserializer : JsonDeserializer<JsonRecipeDetails> {
+class RecipeDeserializer : JsonDeserializer<Recipe> {
 
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): JsonRecipeDetails {
-        val ingredients = SparseArray<String>()
-        val instructions = SparseArray<String>()
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Recipe {
+        val recipe = Recipe()
+        val ingredients = ArrayList<String>()
+        val instructions = ArrayList<String>()
         val jsonResponse = json?.asJsonObject
-        val servings = jsonResponse?.get("servings")?.asInt ?: 1
+
+        recipe.servings = jsonResponse?.get("servings")?.asInt ?: 1
 
         // Extract ingredients from array in json object
         jsonResponse?.get("extendedIngredients")?.asJsonArray?.let {
             for (i in 0 until it.size()) {
                 // "original string" contains amount, unit, and ingredient pre-formatted
-                ingredients.append(i, it[i].asJsonObject.get("originalString").asString)
+                ingredients.add(it[i].asJsonObject.get("originalString").asString)
             }
         }
 
@@ -30,12 +31,14 @@ class RecipeDetailsDeserializer : JsonDeserializer<JsonRecipeDetails> {
                     for (step in 0 until steps.size()) {
                         // each "step" is a json object with the step number, the step instruction string,
                         // and ingredients and equipment needed. Only the step string is needed
-                        instructions.append(instructions.size(), steps[step].asJsonObject.get("step").asString)
+                        instructions.add(steps[step].asJsonObject.get("step").asString)
                     }
                 }
             }
         }
 
-        return JsonRecipeDetails(ingredients, instructions, servings)
+        recipe.ingredients = ingredients
+        recipe.instructions = instructions
+        return recipe
     }
 }
