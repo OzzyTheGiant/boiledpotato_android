@@ -46,7 +46,12 @@ class RecipeActivity : AppCompatActivity() {
         // adjust UI for error messages
         resizeErrorMessage()
         observeRecipeDetails()
-        viewModel.getRecipeDetails()
+
+        if (viewModel.recipe.ingredients == null || viewModel.recipe.instructions == null) {
+            viewModel.getRecipeDetails() // fill in recipe details if missing
+        } else {
+            displayRecipeDetails()
+        }
     }
 
     /** when body is fully drawn, change height of error_message to fit where labels and lists would be */
