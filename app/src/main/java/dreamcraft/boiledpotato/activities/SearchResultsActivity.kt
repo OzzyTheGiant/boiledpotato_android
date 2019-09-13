@@ -85,7 +85,9 @@ class SearchResultsActivity : AppCompatActivity() {
         val resource = viewModel.resourceLiveData.value as Resource.Success
         val resultsSize = resource.data!!.recipes?.size ?: 0
 
-        toggleLoadingIndicators(View.GONE)
+        if (recycler_view.adapter == null) {
+            recycler_view.adapter = SearchResultsRecyclerViewAdapter(viewModel.recipes)
+        }
 
         // check if it's the first page of search results to reveal RecyclerView on first http call
         if (viewModel.recipes.size() <= maxResultsSize) {
