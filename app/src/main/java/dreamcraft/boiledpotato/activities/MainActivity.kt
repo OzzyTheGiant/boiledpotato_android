@@ -14,10 +14,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toast_error.view.*
 
 class MainActivity : AppCompatActivity() {
-    private val searchButtonClickListener = fun(_: View) = startSearchResultsActivity(search_field.text.toString())
+    private val FAVORITES = "favorites"
     private val cuisineButtonClickListener = fun (view: View) = checkCuisineOption(view)
-    private val backButtonClickListener = fun(_: View) = finish()
-
     private var cuisineButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +23,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // set click listeners on activity's buttons
-        back_button.setOnClickListener(backButtonClickListener)
-        search_button.setOnClickListener(searchButtonClickListener)
+        back_button.setOnClickListener { finish() }
+        search_button.setOnClickListener { startSearchResultsActivity(search_field.text.toString())}
+        favorites_button.setOnClickListener { startSearchResultsActivity(FAVORITES) }
 
         var button: Button // add click listener to every cuisine button
         for (i in 0 until button_grid.childCount) {

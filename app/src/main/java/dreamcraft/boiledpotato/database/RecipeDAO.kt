@@ -25,6 +25,9 @@ import dreamcraft.boiledpotato.models.RecipeSearchResults
     """)
     abstract suspend fun getRecipesByQuery(searchId : Long, limit: Int, offset: Int) : List<Recipe>
 
+    @Query("SELECT * FROM Recipes as R JOIN Favorites as F ON R.ID = F.RecipeID LIMIT :limit OFFSET :offset")
+    abstract suspend fun getFavoriteRecipes(limit: Int, offset: Int) : List<Recipe>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun saveRecipes(recipes: List<Recipe>)
 

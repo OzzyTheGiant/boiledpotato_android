@@ -29,9 +29,11 @@ class SearchResultsViewModel : ViewModel(), KoinComponent {
 
     fun getRecipes() {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) {
-            val resource = repository.searchRecipes(searchKeywords, cuisine, maxResultsSize, recipes.size())
+            val resource = if (searchKeywords != "favorites") {
+                repository.searchRecipes(searchKeywords, cuisine, maxResultsSize, recipes.size())
+            } else repository.getFavoriteRecipes(maxResultsSize, recipes.size())
 
-            if (resource is Resource.Success<*> && resource.data != null) {
+            if (resource is Resource.Success && resource.data != null) {
                 totalResults = resource.data.totalResults
 
                 // append recipes from current search query to master recipe array
