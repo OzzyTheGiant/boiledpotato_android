@@ -15,12 +15,15 @@ class RecipeRepository : Repository(), KoinComponent {
     suspend fun searchRecipes(keywords: String, cuisine: String, resultSize: Int, offset: Int = 0)
         : Resource<RecipeSearchQuery> {
 
-        val apiResource : Resource<RecipeSearchQuery> // this contains the recipes and search metadata
+        val apiResource : Resource<RecipeSearchQuery> // this contains retrofit response data
         val recipes : List<Recipe>
         var query = recipeDao.getSearchQuery(keywords, cuisine)
 
+        recipes = if (query != null) // if query was previously made, get recipes in database
+            recipeDao.getRecipesByQuery(query.id, resultSize, offset) else ArrayList()
+
         // Check if this search query has never been done before or if the data is stale
-        if (query == null || query.isStale()) {
+        if (query == null || query.isStale() || recipes.isEmpty()) {
             apiResource = callApi { restApiService.getRecipes(keywords, cuisine, resultSize, offset) }
 
             // save data or return Retrofit error in Resource if response successful and has data
@@ -29,14 +32,13 @@ class RecipeRepository : Repository(), KoinComponent {
                 apiResource.data.cuisine = cuisine
                 recipeDao.saveAll(apiResource.data, apiResource.data.recipes)
                 query = apiResource.data
-            } else if (query == null) return apiResource
+            } else if (query == null) return apiResource // if resource has error, skip and return cached data
         }
 
-        recipes = recipeDao.getRecipesByQuery(query.id)
-        query.recipes = recipes
+        if (recipes.isNotEmpty()) query.recipes = recipes
 
         // check if search query was performed before but no recipes are saved to the DB
-        return if (recipes.isEmpty()) Resource.Error("404") else Resource.Success(query)
+        return if (query.recipes!!.isEmpty()) Resource.Error("404") else Resource.Success(query)
     }
 
     /** fetch Recipe with ingredients and instructions added */
