@@ -29,4 +29,6 @@
     <string name="min">%1$s min</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
+    <string name="MARKED_FAVORITE">Recipe marked as favorite</string>
+    <string name="MARKED_UNFAVORITE">Recipe removed from favorites</string>
 </resources>

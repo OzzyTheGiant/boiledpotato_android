@@ -32,6 +32,11 @@
         <item name="android:background">@color/primary</item>
     </style>
 
+    <style name="appbar_button">
+        <item name="android:layout_width">@dimen/button_size_main</item>
+        <item name="android:layout_height">@dimen/button_size_main</item>
+    </style>
+
     <style name="heading">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
