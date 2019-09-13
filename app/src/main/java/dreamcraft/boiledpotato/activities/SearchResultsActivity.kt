@@ -26,13 +26,10 @@ class SearchResultsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
 
-        back_button.setOnClickListener { this.finish() }
-
         // insert adapter and layout manager to search results recycler view
-        recycler_view.adapter = SearchResultsRecyclerViewAdapter(viewModel.recipes)
         recycler_view.layoutManager = LinearLayoutManager(this)
-        observeRecipes()
 
+        observeRecipes()
         setClickListeners()
 
         viewModel.searchKeywords = intent.getStringExtra(IntentExtras.SEARCH)
@@ -49,6 +46,7 @@ class SearchResultsActivity : AppCompatActivity() {
         button_load_more.setOnClickListener(clickListener)
         button_retry_load.setOnClickListener(clickListener)
         button_retry.setOnClickListener(clickListener)
+        back_button.setOnClickListener { finish() }
     }
 
     /** notify recycler view when the array of recipes has been given more recipes */
@@ -65,7 +63,10 @@ class SearchResultsActivity : AppCompatActivity() {
                     toggleErrorMessage(it.message ?: "")
                     button_load_more.visibility = View.GONE
                 }
-                is Resource.Success -> displaySearchResults()
+                is Resource.Success -> {
+                    toggleLoadingIndicators(View.GONE)
+                    displaySearchResults()
+                }
             }
         })
     }
@@ -92,11 +93,8 @@ class SearchResultsActivity : AppCompatActivity() {
             recycler_view.adapter = SearchResultsRecyclerViewAdapter(viewModel.recipes)
         }
 
-        // check if it's the first page of search results to reveal RecyclerView on first http call
-        if (viewModel.recipes.size() <= maxResultsSize) {
-            body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
-            recycler_view.visibility = View.VISIBLE
-        }
+        body.setBackgroundColor(ContextCompat.getColor(this, R.color.activity_background))
+        recycler_view.visibility = View.VISIBLE
 
         // display "Load More" button if results are paginated and not all results are loaded
         button_load_more.visibility =
