@@ -31,4 +31,5 @@
     <string name="instructions">Instructions</string>
     <string name="MARKED_FAVORITE">Recipe marked as favorite</string>
     <string name="MARKED_UNFAVORITE">Recipe removed from favorites</string>
+    <string name="FAVORITES">Favorite Recipes</string>
 </resources>

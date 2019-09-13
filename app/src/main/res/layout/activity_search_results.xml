@@ -26,7 +26,7 @@
 
         <TextView
             style="@style/heading"
-            android:id="@+id/title"
+            android:id="@+id/activity_title"
             android:text="@string/search_results_activity_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

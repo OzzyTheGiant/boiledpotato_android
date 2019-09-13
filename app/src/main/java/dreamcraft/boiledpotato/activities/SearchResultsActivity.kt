@@ -29,11 +29,10 @@ class SearchResultsActivity : AppCompatActivity() {
         // insert adapter and layout manager to search results recycler view
         recycler_view.layoutManager = LinearLayoutManager(this)
 
-        observeRecipes()
-        setClickListeners()
-
         viewModel.searchKeywords = intent.getStringExtra(IntentExtras.SEARCH)
         viewModel.cuisine = intent.getStringExtra(IntentExtras.CUISINE)
+
+        if (viewModel.searchKeywords == "favorites") activity_title.text = getString(R.string.FAVORITES)
 
         // if activity is restarted, current recipe list will be saved so just redisplay recipe list
         if (viewModel.recipes.size() == 0) viewModel.getRecipes()
