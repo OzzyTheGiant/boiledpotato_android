@@ -16,5 +16,5 @@ import androidx.room.PrimaryKey
 ) {
     @Ignore var recipes: List<Recipe>? = null
 
-    fun isStale() : Boolean =  expires > System.currentTimeMillis()
+    fun isStale() : Boolean =  expires < System.currentTimeMillis()
 }
