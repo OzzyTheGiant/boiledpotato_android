@@ -55,4 +55,26 @@ class RecipeRepository : Repository(), KoinComponent {
 
         return resource
     }
+
+    /** add or remove recipe from Favorites database table */
+    suspend fun toggleRecipeAsFavorite(id: Long, isFavorite: Boolean): Resource<Boolean> {
+        return try {
+            val favorite = Favorite(id)
+
+            if (isFavorite) {
+                recipeDao.addRecipeToFavorites(favorite)
+            } else {
+                recipeDao.removeRecipeFromFavorites(favorite)
+            }
+
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error("400")
+        }
+    }
+
+    /** check if Recipe was added to Favorites database table */
+    suspend fun checkIfRecipeIsFavorite(id: Long) : Resource<Boolean> {
+        return Resource.Success(recipeDao.checkIfRecipeIsFavorite(id) != null)
+    }
 }

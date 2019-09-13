@@ -7,9 +7,10 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.text.TextUtils
 import android.text.style.BulletSpan
-import android.util.SparseArray
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.models.Recipe
@@ -19,6 +20,7 @@ import dreamcraft.boiledpotato.utilities.NumberListSpan
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.activity_recipe.*
 import kotlinx.android.synthetic.main.error_message.*
+import kotlinx.android.synthetic.main.toast_error.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeActivity : AppCompatActivity() {
@@ -42,10 +44,16 @@ class RecipeActivity : AppCompatActivity() {
 
         // set click listeners
         button_retry.setOnClickListener { viewModel.getRecipeDetails() }
+        button_favorite.setOnClickListener { viewModel.toggleRecipeAsFavorite() }
+        button_back.setOnClickListener { finish() }
 
-        // adjust UI for error messages
+        // adjust UI for error messages and mark if it's a Favorite recipe
         resizeErrorMessage()
+        viewModel.checkIfRecipeIsFavorite()
+
+        // observe LiveData for data changes
         observeRecipeDetails()
+        observeFavoriteChange()
 
         if (viewModel.recipe.ingredients == null || viewModel.recipe.instructions == null) {
             viewModel.getRecipeDetails() // fill in recipe details if missing
@@ -68,13 +76,48 @@ class RecipeActivity : AppCompatActivity() {
 
     /** create bullet lists for ingredients and recipe instructions when data is fetched from repository */
     private fun observeRecipeDetails() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<Recipe>> {
+        viewModel.recipeLiveData.observe(this, Observer<Resource<Recipe>> {
             when (it) {
                 is Resource.Loading -> displayLoadingIndicators()
                 is Resource.Success -> displayRecipeDetails()
                 is Resource.Error -> displayErrorMessage(it.message ?: "")
             }
         })
+    }
+
+    @SuppressLint("InflateParams")
+    /** display Toast message after pressing Favorite button and updating recipe or getting error */
+    private fun observeFavoriteChange() {
+        viewModel.favoriteLiveData.observe(this, Observer<Resource<Boolean>> {
+            val toast : Toast
+            when(it) {
+                is Resource.Success -> {
+                    toggleFavoriteButtonBackground(viewModel.recipe.isFavorite, it.data!!)
+                }
+                else -> {
+                    toast = Toast(applicationContext)
+                    toast.view = layoutInflater.inflate(R.layout.toast_error, null) // custom toast layout
+                    toast.view.toast_error_message.text = getString(R.string.DATA_ERROR)
+                    toast.show()
+                }
+            }
+        })
+    }
+
+    /** toggle favorite button star icon and display appropriate response message if specified */
+    private fun toggleFavoriteButtonBackground(isFavorite: Boolean, displayMessage : Boolean) {
+        val stringId : Int; val drawableId : Int
+
+        if (isFavorite) {
+            drawableId = R.drawable.ic_star_yellow_32dp
+            stringId = R.string.MARKED_FAVORITE
+        } else {
+            drawableId = R.drawable.ic_star_border_yellow_32dp
+            stringId = R.string.MARKED_UNFAVORITE
+        }
+
+        button_favorite.background = ContextCompat.getDrawable(this, drawableId)
+        if (displayMessage) Toast.makeText(this, stringId, Toast.LENGTH_LONG).show()
     }
 
     /** remove error message from view and display shimmering placeholders */

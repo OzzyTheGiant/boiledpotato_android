@@ -1,6 +1,7 @@
 package dreamcraft.boiledpotato.database
 
 import androidx.room.*
+import dreamcraft.boiledpotato.models.Favorite
 import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.models.RecipeSearchQuery
 import dreamcraft.boiledpotato.models.RecipeSearchResults
@@ -20,14 +21,24 @@ import dreamcraft.boiledpotato.models.RecipeSearchResults
     // Recipe DB queries
     @Query("""
         SELECT R.* FROM Recipes as R JOIN SearchResults as S ON R.ID = S.RecipeID
-        WHERE S.SearchID = :searchId
+        WHERE S.SearchID = :searchId LIMIT :limit OFFSET :offset
     """)
-    abstract suspend fun getRecipesByQuery(searchId : Long) : List<Recipe>
+    abstract suspend fun getRecipesByQuery(searchId : Long, limit: Int, offset: Int) : List<Recipe>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun saveRecipes(recipes: List<Recipe>)
 
-    @Update abstract suspend fun updateRecipe(recipe: Recipe)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun updateRecipe(recipe: Recipe)
+
+    // Favorites queries
+    @Query("SELECT * FROM Favorites WHERE RecipeID = :recipeId")
+    abstract suspend fun checkIfRecipeIsFavorite(recipeId: Long) : Favorite?
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    abstract suspend fun addRecipeToFavorites(recipe: Favorite)
+
+    @Delete abstract suspend fun removeRecipeFromFavorites(recipe: Favorite)
 
     /** save search query metadata, list of recipes, and results mapping recipes to query,
      *  while generating new query ID */
