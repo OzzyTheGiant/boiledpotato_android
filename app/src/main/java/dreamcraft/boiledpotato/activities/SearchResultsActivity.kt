@@ -37,7 +37,10 @@ class SearchResultsActivity : AppCompatActivity() {
 
         viewModel.searchKeywords = intent.getStringExtra(IntentExtras.SEARCH)
         viewModel.cuisine = intent.getStringExtra(IntentExtras.CUISINE)
-        viewModel.getRecipes()
+
+        // if activity is restarted, current recipe list will be saved so just redisplay recipe list
+        if (viewModel.recipes.size() == 0) viewModel.getRecipes()
+        else displaySearchResults()
     }
 
     /** set click listener for Load More button and Retry buttons to get paginated search results */
