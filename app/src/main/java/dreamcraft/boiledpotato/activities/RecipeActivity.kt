@@ -47,13 +47,13 @@ class RecipeActivity : AppCompatActivity() {
         button_favorite.setOnClickListener { viewModel.toggleRecipeAsFavorite() }
         button_back.setOnClickListener { finish() }
 
-        // adjust UI for error messages and mark if it's a Favorite recipe
-        resizeErrorMessage()
-        viewModel.checkIfRecipeIsFavorite()
-
         // observe LiveData for data changes
         observeRecipeDetails()
         observeFavoriteChange()
+
+        // adjust UI for error messages and mark if it's a Favorite recipe
+        resizeErrorMessage()
+        viewModel.checkIfRecipeIsFavorite()
 
         if (viewModel.recipe.ingredients == null || viewModel.recipe.instructions == null) {
             viewModel.getRecipeDetails() // fill in recipe details if missing

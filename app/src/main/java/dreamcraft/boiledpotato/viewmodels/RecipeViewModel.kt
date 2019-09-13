@@ -22,7 +22,13 @@ class RecipeViewModel : ViewModel(), KoinComponent {
     fun getRecipeDetails() {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) { // start a new co-routine for DB and Network operations
             val resource = repository.searchRecipeDetails(recipe)
-            recipe = resource.data ?: recipe
+
+            resource.data?.let {
+                // mark recipe from resource as favorite, since that check happened async
+                it.isFavorite = recipe.isFavorite
+                recipe = resource.data
+            }
+
             recipeLiveData.postValue(resource) // async LiveData update due to IO thread
         }
         recipeLiveData.value = Resource.Loading()
