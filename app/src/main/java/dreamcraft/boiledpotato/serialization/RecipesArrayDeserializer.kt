@@ -1,6 +1,5 @@
 package dreamcraft.boiledpotato.serialization
 
-import android.util.SparseArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
