@@ -1,12 +1,12 @@
 package dreamcraft.boiledpotato.adapters
 
+import android.app.Activity
 import android.content.Intent
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.activities.IntentExtras
 import dreamcraft.boiledpotato.activities.RecipeActivity
@@ -17,6 +17,9 @@ import dreamcraft.boiledpotato.viewholders.SearchResultViewHolder
 class SearchResultsRecyclerViewAdapter(
     private val recipeArray: SparseArray<Recipe>
 ) : RecyclerView.Adapter<SearchResultViewHolder>() {
+
+    // Only place to store index number of Recipe used in RecipeActivity, in case we need to remove from list
+    var currentRecipeIndex = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_result_list_item, parent, false)
@@ -38,6 +41,7 @@ class SearchResultsRecyclerViewAdapter(
     private fun startRecipeActivity(view: View, holder: SearchResultViewHolder) {
         val intent = Intent(view.context, RecipeActivity::class.java)
         intent.putExtra(IntentExtras.RECIPE, recipeArray[holder.adapterPosition])
-        view.context.startActivity(intent)
+        currentRecipeIndex = holder.adapterPosition
+        (view.context as Activity).startActivityForResult(intent, 1)
     }
 }

@@ -1,5 +1,7 @@
 package dreamcraft.boiledpotato.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -129,6 +131,22 @@ class SearchResultsActivity : AppCompatActivity() {
             error_message.visibility = visibility
         } else {
             button_retry_load.visibility = visibility
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            val isFavorite = data?.getBooleanExtra(IntentExtras.IS_FAVORITE, false)
+            val adapter : SearchResultsRecyclerViewAdapter
+
+            // check if SearchResultsActivity is displaying favorite recipes and if recipe no longer favorite
+            // so that it can be removed from the list upon resuming activity
+            if (isFavorite != null && !isFavorite && viewModel.searchKeywords == "favorites") {
+                adapter = (recycler_view.adapter as SearchResultsRecyclerViewAdapter)
+                viewModel.recipes.remove(adapter.currentRecipeIndex)
+                adapter.notifyItemRemoved(adapter.currentRecipeIndex)
+            }
         }
     }
 }

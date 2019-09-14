@@ -1,6 +1,8 @@
 package dreamcraft.boiledpotato.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -45,7 +47,7 @@ class RecipeActivity : AppCompatActivity() {
         // set click listeners
         button_retry.setOnClickListener { viewModel.getRecipeDetails() }
         button_favorite.setOnClickListener { viewModel.toggleRecipeAsFavorite() }
-        button_back.setOnClickListener { finish() }
+        button_back.setOnClickListener { finishRecipeActivity() }
 
         // observe LiveData for data changes
         observeRecipeDetails()
@@ -181,5 +183,13 @@ class RecipeActivity : AppCompatActivity() {
 
         ingredients_placeholder.visibility = visibility
         instructions_placeholder.visibility = visibility
+    }
+
+    /** close this activity and notify SearchResults activity if recipe is no longer favorite */
+    private fun finishRecipeActivity() {
+        val intent = Intent(this, SearchResultsActivity::class.java)
+        intent.putExtra(IntentExtras.IS_FAVORITE, viewModel.recipe.isFavorite)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }
