@@ -31,7 +31,9 @@ class SearchResultsViewModel : ViewModel(), KoinComponent {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) {
             val resource = if (searchKeywords != "favorites") {
                 repository.searchRecipes(searchKeywords, cuisine, maxResultsSize, recipes.size())
-            } else repository.getFavoriteRecipes(maxResultsSize, recipes.size())
+            } else {
+                repository.getFavoriteRecipes(maxResultsSize, recipes.size(), totalResults == 0)
+            }
 
             if (resource is Resource.Success && resource.data != null) {
                 totalResults = resource.data.totalResults

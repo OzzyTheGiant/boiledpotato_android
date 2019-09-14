@@ -57,9 +57,10 @@ class RecipeRepository : Repository(), KoinComponent {
     }
 
     /** fetch favorite recipes from database */
-    suspend fun getFavoriteRecipes(resultSize: Int, offset: Int) : Resource<RecipeSearchQuery> {
+    suspend fun getFavoriteRecipes(resultSize: Int, offset: Int, getCount: Boolean) : Resource<RecipeSearchQuery> {
         val query = RecipeSearchQuery()
         query.recipes = recipeDao.getFavoriteRecipes(resultSize, offset)
+        if (getCount) query.totalResults = recipeDao.getFavoriteRecipeCount()
         return if (query.recipes!!.isEmpty()) Resource.Error("400") else Resource.Success(query)
     }
 

@@ -41,6 +41,9 @@ import dreamcraft.boiledpotato.models.RecipeSearchResults
     @Insert(onConflict = OnConflictStrategy.ABORT)
     abstract suspend fun addRecipeToFavorites(recipe: Favorite)
 
+    @Query("SELECT COUNT(1) FROM Favorites")
+    abstract fun getFavoriteRecipeCount(): Int
+
     @Delete abstract suspend fun removeRecipeFromFavorites(recipe: Favorite)
 
     /** save search query metadata, list of recipes, and results mapping recipes to query,
