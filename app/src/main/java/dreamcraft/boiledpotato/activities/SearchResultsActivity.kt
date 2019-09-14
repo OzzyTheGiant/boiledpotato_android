@@ -21,10 +21,14 @@ import org.koin.core.qualifier.named
 class SearchResultsActivity : AppCompatActivity() {
     private val viewModel : SearchResultsViewModel by viewModel()
     private val maxResultsSize: Int by inject(named("webApiResultsSize"))
+    private val clickListener = View.OnClickListener { viewModel.getRecipes() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
+
+        observeRecipes()
+        setClickListeners()
 
         // insert adapter and layout manager to search results recycler view
         recycler_view.layoutManager = LinearLayoutManager(this)
@@ -41,7 +45,6 @@ class SearchResultsActivity : AppCompatActivity() {
 
     /** set click listener for Load More button and Retry buttons to get paginated search results */
     private fun setClickListeners() {
-        val clickListener = View.OnClickListener { viewModel.getRecipes() }
         button_load_more.setOnClickListener(clickListener)
         button_retry_load.setOnClickListener(clickListener)
         button_retry.setOnClickListener(clickListener)
