@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity() {
         search_button.setOnClickListener { startSearchResultsActivity(search_field.text.toString())}
         favorites_button.setOnClickListener { startSearchResultsActivity(FAVORITES) }
 
-        var button: Button // add click listener to every cuisine button
         for (i in 0 until button_grid.childCount) {
-            button = button_grid.getChildAt(i) as Button
-            button.setOnClickListener(cuisineButtonClickListener)
+            // add click listener to every cuisine button
+            val button : View = button_grid.getChildAt(i)
+            if (button is Button) button.setOnClickListener(cuisineButtonClickListener)
         }
     }
 

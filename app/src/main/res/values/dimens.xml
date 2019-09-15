@@ -27,4 +27,5 @@
     <dimen name="skeleton_search_result_height">220dp</dimen>
     <dimen name="skeleton_list_item_height">28dp</dimen>
     <dimen name="list_min_height">144dp</dimen>
+    <dimen name="padding_border_line">2dp</dimen>
 </resources>
