@@ -50,13 +50,14 @@ class SearchResultsActivity : AppCompatActivity() {
 
     /** insert adapter and layout manager to search results recycler view */
     private fun setupRecyclerView() {
-        val spacingSize: Float
+        val viewportWidth = (resources.displayMetrics.widthPixels / resources.displayMetrics.density).toInt()
+        val gapSize = resources.getDimension(R.dimen.padding_main).toInt()
+        val colCount : Int // NOTE: column layouts have not been tested on tablets
 
-        if (resources.displayMetrics.widthPixels / resources.displayMetrics.density >= 600) {
-            // screen size at least 600 dp
-            spacingSize = resources.getDimension(R.dimen.padding_main)
-            recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            recycler_view.addItemDecoration(RecyclerViewColumnSpacing(spacingSize.toInt())) // add column spacing
+        if (viewportWidth >= 600) { // screen size at least 600dp
+            colCount = if (viewportWidth >= 960) 3 else 2
+            recycler_view.layoutManager = StaggeredGridLayoutManager(colCount, StaggeredGridLayoutManager.VERTICAL)
+            recycler_view.addItemDecoration(RecyclerViewColumnSpacing(gapSize)) // add column spacing
         } else {
             recycler_view.layoutManager = LinearLayoutManager(this)
         }
