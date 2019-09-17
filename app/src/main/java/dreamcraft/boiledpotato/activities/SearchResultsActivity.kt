@@ -42,7 +42,10 @@ class SearchResultsActivity : AppCompatActivity() {
 
         // if activity is restarted, current recipe list will be saved so just redisplay recipe list
         if (viewModel.recipes.size() == 0) viewModel.getRecipes()
-        else displaySearchResults()
+        else {
+            toggleLoadingIndicators(View.GONE)
+            displaySearchResults()
+        }
     }
 
     /** insert adapter and layout manager to search results recycler view */
