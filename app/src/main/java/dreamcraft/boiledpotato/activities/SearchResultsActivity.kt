@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.adapters.SearchResultsRecyclerViewAdapter
 import dreamcraft.boiledpotato.models.RecipeSearchQuery
 import dreamcraft.boiledpotato.repositories.Resource
+import dreamcraft.boiledpotato.utilities.RecyclerViewColumnSpacing
 import dreamcraft.boiledpotato.utilities.Visibility
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import kotlinx.android.synthetic.main.activity_search_results.*
@@ -31,9 +33,7 @@ class SearchResultsActivity : AppCompatActivity() {
 
         observeRecipes()
         setClickListeners()
-
-        // insert adapter and layout manager to search results recycler view
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        setupRecyclerView()
 
         viewModel.searchKeywords = intent.getStringExtra(IntentExtras.SEARCH)
         viewModel.cuisine = intent.getStringExtra(IntentExtras.CUISINE)
@@ -43,6 +43,20 @@ class SearchResultsActivity : AppCompatActivity() {
         // if activity is restarted, current recipe list will be saved so just redisplay recipe list
         if (viewModel.recipes.size() == 0) viewModel.getRecipes()
         else displaySearchResults()
+    }
+
+    /** insert adapter and layout manager to search results recycler view */
+    private fun setupRecyclerView() {
+        val spacingSize: Float
+
+        if (resources.displayMetrics.widthPixels / resources.displayMetrics.density >= 600) {
+            // screen size at least 600 dp
+            spacingSize = resources.getDimension(R.dimen.padding_main)
+            recycler_view.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            recycler_view.addItemDecoration(RecyclerViewColumnSpacing(spacingSize.toInt())) // add column spacing
+        } else {
+            recycler_view.layoutManager = LinearLayoutManager(this)
+        }
     }
 
     /** set click listener for Load More button and Retry buttons to get paginated search results */
