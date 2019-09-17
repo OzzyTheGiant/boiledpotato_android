@@ -7,6 +7,7 @@
     <dimen name="button_size_main">60dp</dimen>
     <dimen name="button_size_cuisine">132dp</dimen>
     <dimen name="button_cuisine_padding">20dp</dimen>
+    <dimen name="button_load_more_max_width">540dp</dimen>
     <dimen name="padding_viewport">16dp</dimen>
     <dimen name="font_size_heading_search_result">24sp</dimen>
     <dimen name="search_result_image_view_height">360dp</dimen>
