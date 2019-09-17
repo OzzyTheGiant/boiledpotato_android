@@ -13,8 +13,6 @@ class ImageLoader(
     private val picasso : Picasso = Picasso.get()
 ) {
     private val url = view.context.getString(R.string.WEB_API_IMAGE_URL) + imageFileName
-    private val width = view.context.resources.displayMetrics.widthPixels
-    private val height = view.context.resources.getDimension(R.dimen.search_result_image_height)
     private val placeholder: Drawable = view.context.resources.getDrawable(R.drawable.ic_sync_gray_32dp, null)
     private val errorIcon: Drawable = view.context.resources.getDrawable(R.drawable.ic_error_red_32dp, null)
 
@@ -27,7 +25,8 @@ class ImageLoader(
             .load(url)
             .placeholder(placeholder)
             .error(errorIcon)
-            .resize(width, height.toInt())
-            .centerCrop().into(view)
+            .fit()
+            .centerCrop()
+            .into(view)
     }
 }
