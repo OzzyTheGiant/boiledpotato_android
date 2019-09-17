@@ -7,4 +7,5 @@
     <dimen name="button_size_main">60dp</dimen>
     <dimen name="button_size_cuisine">168dp</dimen>
     <dimen name="button_cuisine_padding">28dp</dimen>
+    <dimen name="font_size_heading_search_result">28sp</dimen>
 </resources>

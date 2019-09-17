@@ -8,4 +8,7 @@
     <dimen name="button_size_main">48dp</dimen>
     <dimen name="button_size_cuisine">96dp</dimen>
     <dimen name="button_cuisine_padding">12dp</dimen>
+    <dimen name="font_size_heading_search_result">20sp</dimen>
+    <dimen name="search_result_image_view_height">270dp</dimen>
+    <dimen name="skeleton_search_result_height">320dp</dimen>
 </resources>

@@ -8,4 +8,5 @@
     <dimen name="button_size_cuisine">132dp</dimen>
     <dimen name="button_cuisine_padding">20dp</dimen>
     <dimen name="padding_viewport">16dp</dimen>
+    <dimen name="font_size_heading_search_result">24sp</dimen>
 </resources>
