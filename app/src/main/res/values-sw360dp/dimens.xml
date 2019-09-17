@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="font_size_heading">28sp</dimen>
+    <dimen name="font_size_search_field">24sp</dimen>
+    <dimen name="font_size_cuisine_button">12sp</dimen>
+    <dimen name="font_size_cuisine_paragraph">20sp</dimen>
+    <dimen name="line_spacing">16dp</dimen>
+    <dimen name="button_size_main">48dp</dimen>
+    <dimen name="button_size_cuisine">96dp</dimen>
+    <dimen name="button_cuisine_padding">12dp</dimen>
+</resources>

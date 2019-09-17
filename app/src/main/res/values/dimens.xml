@@ -8,9 +8,11 @@
     <dimen name="padding_recipe_label">16dp</dimen>
     <dimen name="line_spacing">8dp</dimen>
     <dimen name="line_spacing_search_component">20dp</dimen>
-    <dimen name="font_size_main">16sp</dimen>
-    <dimen name="font_size_heading">20sp</dimen>
     <dimen name="line_spacing_heading_recipe">24dp</dimen>
+    <dimen name="font_size_main">16sp</dimen>
+    <dimen name="font_size_search_field">16sp</dimen>
+    <dimen name="font_size_heading">20sp</dimen>
+    <dimen name="font_size_cuisine_paragraph">12sp</dimen>
     <dimen name="font_size_cuisine_button">8sp</dimen>
     <dimen name="font_size_button_small">11sp</dimen>
     <dimen name="font_size_heading_search_result">12sp</dimen>
