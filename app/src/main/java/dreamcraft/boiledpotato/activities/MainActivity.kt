@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import dreamcraft.boiledpotato.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.search_component.*
 import kotlinx.android.synthetic.main.toast_error.view.*
 
 class MainActivity : AppCompatActivity() {
