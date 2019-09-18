@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="recipe_label">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/neutral</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">@dimen/font_size_recipe_label</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/padding_viewport</item>
+        <item name="android:paddingTop">@dimen/padding_recipe_label</item>
+        <item name="android:paddingBottom">@dimen/padding_recipe_label</item>
+        <item name="android:paddingLeft">@dimen/padding_recipe_label</item>
+        <item name="android:paddingRight">@dimen/padding_recipe_label</item>
+    </style>
+
+    <style name="servings_label" parent="recipe_label">
+        <item name="android:drawableLeft">@drawable/ic_servings_yellow_32dp</item>
+    </style>
+
+    <style name="prep_time_label" parent="recipe_label">
+        <item name="android:drawableLeft">@drawable/ic_time_yellow_32dp</item>
+    </style>
+</resources>

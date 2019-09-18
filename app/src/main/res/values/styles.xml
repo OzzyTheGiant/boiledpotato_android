@@ -85,8 +85,11 @@
     </style>
 
     <style name="button_small">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">200dp</item>
         <item name="android:layout_height">@dimen/button_size_main</item>
+        <item name="android:paddingLeft">@dimen/padding_viewport</item>
+        <item name="android:paddingRight">@dimen/padding_viewport</item>
+        <item name="android:textSize">@dimen/font_size_button</item>
         <item name="android:background">@drawable/button_background_primary_dark</item>
     </style>
 
@@ -96,10 +99,18 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">@color/neutral</item>
         <item name="android:textColor">@color/primary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/font_size_recipe_label</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/padding_recipe_label</item>
         <item name="android:paddingBottom">@dimen/padding_recipe_label</item>
+    </style>
+
+    <style name="servings_label" parent="recipe_label">
+        <item name="android:drawableTop">@drawable/ic_servings_yellow_32dp</item>
+    </style>
+
+    <style name="prep_time_label" parent="recipe_label">
+        <item name="android:drawableTop">@drawable/ic_time_yellow_32dp</item>
     </style>
 
     <style name="list_heading" parent="padded_component">
