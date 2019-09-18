@@ -95,9 +95,9 @@
             <Button
                 style="@style/icon_text_button"
                 android:id="@+id/button_retry_load"
-                android:text=""
+                android:text="@string/placeholder_text"
                 android:drawableStart="@drawable/ic_error_red_32dp"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <ProgressBar
                 style="@style/load_more_button"
