@@ -16,6 +16,7 @@
     <dimen name="font_size_cuisine_button">8sp</dimen>
     <dimen name="font_size_button">16sp</dimen>
     <dimen name="font_size_button_small">11sp</dimen>
+    <dimen name="font_size_button_load_more">16sp</dimen>
     <dimen name="font_size_heading_search_result">12sp</dimen>
     <dimen name="font_size_heading_recipe">18sp</dimen>
     <dimen name="font_size_recipe_label">16sp</dimen>

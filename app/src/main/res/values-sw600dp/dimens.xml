@@ -5,6 +5,7 @@
     <dimen name="font_size_cuisine_paragraph">24sp</dimen>
     <dimen name="font_size_recipe_label">24sp</dimen>
     <dimen name="font_size_button">24sp</dimen>
+    <dimen name="font_size_button_load_more">18sp</dimen>
     <dimen name="line_spacing">24sp</dimen>
     <dimen name="line_spacing_heading_recipe">44dp</dimen>
     <dimen name="button_size_main">60dp</dimen>

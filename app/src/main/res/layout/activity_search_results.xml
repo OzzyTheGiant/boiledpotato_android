@@ -96,6 +96,7 @@
                 style="@style/icon_text_button"
                 android:id="@+id/button_retry_load"
                 android:text="@string/placeholder_text"
+                android:textSize="@dimen/font_size_button_load_more"
                 android:drawableStart="@drawable/ic_error_red_32dp"
                 android:visibility="gone"/>
 
