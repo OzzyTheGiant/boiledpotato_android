@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="load_more_button">
+        <item name="android:layout_width">@dimen/button_load_more_max_width</item>
+        <item name="android:layout_height">@dimen/button_load_more_height</item>
+        <item name="android:layout_marginStart">@dimen/padding_viewport</item>
+        <item name="android:layout_marginEnd">@dimen/padding_viewport</item>
+        <item name="android:background">@drawable/button_background_primary_dark</item>
+        <item name="android:paddingTop">@dimen/padding_viewport</item>
+        <item name="android:paddingBottom">@dimen/padding_viewport</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>

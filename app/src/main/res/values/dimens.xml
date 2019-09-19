@@ -27,7 +27,7 @@
     <dimen name="button_cuisine_drawable_padding">-4sp</dimen>
     <dimen name="button_icon_spacing_left">4dp</dimen>
     <dimen name="button_load_more_height">60dp</dimen>
-    <dimen name="button_load_more_max_width">match_parent</dimen>
+    <dimen name="button_load_more_max_width">540dp</dimen>
     <dimen name="icon_size_error">48dp</dimen>
     <dimen name="icon_size_recipe_label">32dp</dimen>
     <dimen name="search_result_image_view_height">180dp</dimen>
