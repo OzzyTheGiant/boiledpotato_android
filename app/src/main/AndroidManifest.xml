@@ -23,6 +23,8 @@
         </activity>
         <activity android:name=".activities.SearchResultsActivity"/>
         <activity android:name=".activities.RecipeActivity"/>
+
+        <uses-library android:name="android.test.runner" android:required="false" />
     </application>
 
 </manifest>
