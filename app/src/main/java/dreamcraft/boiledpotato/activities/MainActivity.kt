@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         if (cuisineButton != null) { // reset previous checked button if a button was previously clicked
             changeCuisineButtonColors(cuisineButton!!,
-                R.color.primary_dark,
+                R.color.primary,
                 R.color.neutral
             )
         }
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         } else { // set current cuisine button to gold with black icon and text
             changeCuisineButtonColors(button,
                 R.color.neutral,
-                R.color.primary_dark
+                R.color.primary
             )
         }
         cuisineButton = button
