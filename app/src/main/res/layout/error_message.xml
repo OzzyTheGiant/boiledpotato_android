@@ -38,7 +38,7 @@
         style="@style/button_small"
         android:id="@+id/button_retry"
         android:text="@string/retry"
-        android:textFontWeight="bold"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/padding_center_text"
         app:layout_constraintTop_toBottomOf="@id/error_text"
         app:layout_constraintLeft_toLeftOf="parent"
