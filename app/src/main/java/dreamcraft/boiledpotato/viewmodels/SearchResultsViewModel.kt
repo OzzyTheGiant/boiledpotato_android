@@ -36,7 +36,7 @@ class SearchResultsViewModel : ViewModel(), KoinComponent {
             }
 
             if (resource is Resource.Success && resource.data != null) {
-                totalResults = resource.data.totalResults
+                if (totalResults == 0) totalResults = resource.data.totalResults
 
                 // append recipes from current search query to master recipe array
                 resource.data.recipes?.let { resultRecipes ->
