@@ -49,7 +49,7 @@
             android:text="@string/placeholder_text"
             android:background="@color/accent"
             android:textColor="@color/white"
-            android:textFontWeight="bold"
+            android:textStyle="bold"
             android:textSize="@dimen/font_size_heading_recipe"
             android:lineHeight="@dimen/line_spacing_heading_recipe"
             app:layout_constraintTop_toBottomOf="@id/recipe_image"
