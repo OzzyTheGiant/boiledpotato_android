@@ -26,8 +26,10 @@ import kotlinx.android.synthetic.main.toast_error.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeActivity : AppCompatActivity() {
-    private val viewModel : RecipeViewModel by viewModel()
+    public val viewModel : RecipeViewModel by viewModel()
     private lateinit var imageLoader : ImageLoader
+    private val recipeLiveDataObserver = Observer<Resource<Recipe>> { processRecipeResource(it) }
+    private val favoriteLiveDataObserver = Observer<Resource<Boolean>> { processFavoriteResource(it) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +52,8 @@ class RecipeActivity : AppCompatActivity() {
         button_back.setOnClickListener { finishRecipeActivity() }
 
         // observe LiveData for data changes
-        observeRecipeDetails()
-        observeFavoriteChange()
+        viewModel.recipeLiveData.observe(this, recipeLiveDataObserver)
+        viewModel.favoriteLiveData.observe(this, favoriteLiveDataObserver)
 
         // adjust UI for error messages and mark if it's a Favorite recipe
         resizeErrorMessage()
@@ -77,33 +79,29 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     /** create bullet lists for ingredients and recipe instructions when data is fetched from repository */
-    private fun observeRecipeDetails() {
-        viewModel.recipeLiveData.observe(this, Observer<Resource<Recipe>> {
-            when (it) {
-                is Resource.Loading -> displayLoadingIndicators()
-                is Resource.Success -> displayRecipeDetails()
-                is Resource.Error -> displayErrorMessage(it.message ?: "")
-            }
-        })
+    fun processRecipeResource(resource: Resource<Recipe>) {
+        when (resource) {
+            is Resource.Loading -> displayLoadingIndicators()
+            is Resource.Success -> displayRecipeDetails()
+            is Resource.Error -> displayErrorMessage(resource.message ?: "")
+        }
     }
 
     @SuppressLint("InflateParams")
     /** display Toast message after pressing Favorite button and updating recipe or getting error */
-    private fun observeFavoriteChange() {
-        viewModel.favoriteLiveData.observe(this, Observer<Resource<Boolean>> {
-            val toast : Toast
-            when(it) {
-                is Resource.Success -> {
-                    toggleFavoriteButtonBackground(viewModel.recipe.isFavorite, it.data!!)
-                }
-                else -> {
-                    toast = Toast(applicationContext)
-                    toast.view = layoutInflater.inflate(R.layout.toast_error, null) // custom toast layout
-                    toast.view.toast_error_message.text = getString(R.string.DATA_ERROR)
-                    toast.show()
-                }
+    fun processFavoriteResource(resource: Resource<Boolean>) {
+        val toast : Toast
+        when(resource) {
+            is Resource.Success -> {
+                toggleFavoriteButtonBackground(viewModel.recipe.isFavorite, resource.data!!)
             }
-        })
+            else -> {
+                toast = Toast(applicationContext)
+                toast.view = layoutInflater.inflate(R.layout.toast_error, null) // custom toast layout
+                toast.view.toast_error_message.text = getString(R.string.DATA_ERROR)
+                toast.show()
+            }
+        }
     }
 
     /** toggle favorite button star icon and display appropriate response message if specified */
