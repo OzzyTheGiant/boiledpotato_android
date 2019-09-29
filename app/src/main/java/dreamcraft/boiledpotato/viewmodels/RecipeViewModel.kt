@@ -6,20 +6,24 @@ import androidx.lifecycle.viewModelScope
 import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.repositories.RecipeRepository
 import dreamcraft.boiledpotato.repositories.Resource
+import dreamcraft.boiledpotato.utilities.CoroutineContextProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class RecipeViewModel : ViewModel(), KoinComponent {
+open class RecipeViewModel : ViewModel(), KoinComponent {
+    // dependencies
     private val repository : RecipeRepository by inject()
+    private val ctxProvider: CoroutineContextProvider by inject()
+
     private lateinit var repositoryJob : Job
     lateinit var recipe: Recipe // this will come from SearchResultsActivity
     val recipeLiveData = MutableLiveData<Resource<Recipe>>()
     val favoriteLiveData = MutableLiveData<Resource<Boolean>>()
 
-    fun getRecipeDetails() {
+    open fun getRecipeDetails() {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) { // start a new co-routine for DB and Network operations
             val resource = repository.searchRecipeDetails(recipe)
 
@@ -34,7 +38,7 @@ class RecipeViewModel : ViewModel(), KoinComponent {
         recipeLiveData.value = Resource.Loading()
     }
 
-    fun checkIfRecipeIsFavorite() {
+    open fun checkIfRecipeIsFavorite() {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) {
             val resource = repository.checkIfRecipeIsFavorite(recipe.id)
             if (resource is Resource.Success) {
@@ -44,7 +48,7 @@ class RecipeViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun toggleRecipeAsFavorite() {
+    open fun toggleRecipeAsFavorite() {
         repositoryJob = viewModelScope.launch(Dispatchers.IO) {
             val isFavorite = !recipe.isFavorite
             val resource = repository.toggleRecipeAsFavorite(recipe.id, isFavorite)
