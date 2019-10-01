@@ -10,17 +10,16 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import dreamcraft.boiledpotato.R
 import dreamcraft.boiledpotato.RobolectricApplication
 import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
+import kotlinx.android.synthetic.main.toast_error.view.*
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,6 +27,7 @@ import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.mock.declareMock
+import org.robolectric.shadows.ShadowToast
 
 @RunWith(AndroidJUnit4::class)
 class RecipeActivityUnitTest : KoinTest {
@@ -52,7 +52,6 @@ class RecipeActivityUnitTest : KoinTest {
     }
 
     @Test fun displaysProvidedRecipeDataOnStartUp() {
-
         // check parcel Recipe data came in and filled UI
         onView(withId(R.id.recipe_name)).check(matches(withText(sampleRecipe.name)))
         onView(withId(R.id.servings)).check(matches(withText("${sampleRecipe.servings} Servings")))
@@ -88,14 +87,24 @@ class RecipeActivityUnitTest : KoinTest {
         }
     }
 
-    @Test fun togglesFavoriteIcon() {
+    @Test fun togglesFavoriteStatus() {
         scenario.onActivity { activity ->
-            activity.processFavoriteResource(Resource.Success(false))
-
-            // test favorite button toggles isFavorite in Recipe
             onView(withId(R.id.button_favorite)).perform(click())
             verify(activity.viewModel, times(1)).toggleFavoriteStatus()
-            activity.processFavoriteResource(Resource.Success(false))
+
+            // check recipe marked as favorite
+            sampleRecipe.isFavorite = true
+            activity.processFavoriteResource(Resource.Success(true))
+            assertEquals(ShadowToast.getTextOfLatestToast(), activity.getString(R.string.MARKED_FAVORITE))
+
+            // check recipe favorite status removed
+            sampleRecipe.isFavorite = false
+            activity.processFavoriteResource(Resource.Success(true))
+            assertEquals(ShadowToast.getTextOfLatestToast(), activity.getString(R.string.MARKED_UNFAVORITE))
+
+            // check error message given if an error occurred
+            activity.processFavoriteResource(Resource.Error("000"))
+            assertEquals(ShadowToast.getLatestToast().view.toast_error_message.text, activity.getString(R.string.DATA_ERROR))
         }
     }
 
