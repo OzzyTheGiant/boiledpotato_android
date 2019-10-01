@@ -87,6 +87,28 @@ class RecipeActivityUnitTest : KoinTest {
         }
     }
 
+    @Test fun displaysErrorMessageWhenRecipeDataCouldNotBeFetched() {
+        scenario.onActivity { activity ->
+            // test Network Error message displayed
+            activity.processRecipeResource(Resource.Error("000"))
+            onView(withId(R.id.ingredients_placeholder)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+            onView(withId(R.id.instructions_placeholder)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+            onView(withId(R.id.error_message)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+            onView(withId(R.id.error_text)).check(matches(
+                withText(activity.getString(R.string.NETWORK_ERROR) + ": " + activity.getString(R.string.try_again))
+            ))
+
+            // perform click on Retry button to redisplay loading indicators
+            onView(withId(R.id.button_retry)).perform(click())
+            verify(activity.viewModel, times(2)).getRecipeDetails()
+
+            activity.processRecipeResource(Resource.Loading())
+            onView(withId(R.id.ingredients_placeholder)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+            onView(withId(R.id.instructions_placeholder)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+            onView(withId(R.id.error_message)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+        }
+    }
+
     @Test fun togglesFavoriteStatus() {
         scenario.onActivity { activity ->
             onView(withId(R.id.button_favorite)).perform(click())
