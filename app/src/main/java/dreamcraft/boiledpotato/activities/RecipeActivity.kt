@@ -48,7 +48,7 @@ class RecipeActivity : AppCompatActivity() {
 
         // set click listeners
         button_retry.setOnClickListener { viewModel.getRecipeDetails() }
-        button_favorite.setOnClickListener { viewModel.toggleRecipeAsFavorite() }
+        button_favorite.setOnClickListener { viewModel.toggleFavoriteStatus() }
         button_back.setOnClickListener { finishRecipeActivity() }
 
         // observe LiveData for data changes
@@ -57,7 +57,7 @@ class RecipeActivity : AppCompatActivity() {
 
         // adjust UI for error messages and mark if it's a Favorite recipe
         resizeErrorMessage()
-        viewModel.checkIfRecipeIsFavorite()
+        viewModel.getFavoriteStatus()
 
         if (viewModel.recipe.ingredients == null || viewModel.recipe.instructions == null) {
             viewModel.getRecipeDetails() // fill in recipe details if missing
@@ -127,11 +127,11 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     /** hide loading indicators or error message and display recipe details from json Resource */
-    private fun displayRecipeDetails() {
+    private fun displayRecipeDetails(recipe: Recipe = viewModel.recipe) {
         togglePlaceholders(View.GONE)
-        servings.text = getString(R.string.recipe_label_servings, viewModel.recipe.servings.toString())
-        ingredients_list.text = viewModel.recipe.ingredients?.let { createBulletList(it) }
-        instructions_list.text = viewModel.recipe.instructions?.let { createBulletList(it, true) }
+        servings.text = getString(R.string.recipe_label_servings, recipe.servings.toString())
+        ingredients_list.text = recipe.ingredients?.let { createBulletList(it) }
+        instructions_list.text = recipe.instructions?.let { createBulletList(it, true) }
     }
 
     /** create an ordered list with bullets or numbers, merged into one string with line breaks */

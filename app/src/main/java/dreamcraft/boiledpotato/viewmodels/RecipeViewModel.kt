@@ -7,25 +7,30 @@ import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.repositories.RecipeRepository
 import dreamcraft.boiledpotato.repositories.Resource
 import dreamcraft.boiledpotato.utilities.CoroutineContextProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-open class RecipeViewModel : ViewModel(), KoinComponent {
+class RecipeViewModel : ViewModel(), KoinComponent {
     // dependencies
     private val repository : RecipeRepository by inject()
     private val ctxProvider: CoroutineContextProvider by inject()
 
-    private lateinit var repositoryJob : Job
-    lateinit var recipe: Recipe // this will come from SearchResultsActivity
-    val recipeLiveData = MutableLiveData<Resource<Recipe>>()
-    val favoriteLiveData = MutableLiveData<Resource<Boolean>>()
+    // LiveData observables
+    var recipeLiveData = MutableLiveData<Resource<Recipe>>()
+    var favoriteLiveData = MutableLiveData<Resource<Boolean>>()
 
-    open fun getRecipeDetails() {
-        repositoryJob = viewModelScope.launch(Dispatchers.IO) { // start a new co-routine for DB and Network operations
-            val resource = repository.searchRecipeDetails(recipe)
+    // this will come from SearchResultsActivity
+    lateinit var recipe: Recipe
+
+    fun getRecipeDetails() {
+        recipeLiveData.value = Resource.Loading()
+
+        viewModelScope.launch {
+            val resource = withContext(ctxProvider.IO) {
+                repository.searchRecipeDetails(recipe)
+            }
 
             resource.data?.let {
                 // mark recipe from resource as favorite, since that check happened async
@@ -33,32 +38,28 @@ open class RecipeViewModel : ViewModel(), KoinComponent {
                 recipe = resource.data
             }
 
-            recipeLiveData.postValue(resource) // async LiveData update due to IO thread
-        }
-        recipeLiveData.value = Resource.Loading()
-    }
-
-    open fun checkIfRecipeIsFavorite() {
-        repositoryJob = viewModelScope.launch(Dispatchers.IO) {
-            val resource = repository.checkIfRecipeIsFavorite(recipe.id)
-            if (resource is Resource.Success) {
-                recipe.isFavorite = resource.data!!
-                favoriteLiveData.postValue(Resource.Success(false))
-            }
+            recipeLiveData.value = resource
         }
     }
 
-    open fun toggleRecipeAsFavorite() {
-        repositoryJob = viewModelScope.launch(Dispatchers.IO) {
-            val isFavorite = !recipe.isFavorite
-            val resource = repository.toggleRecipeAsFavorite(recipe.id, isFavorite)
-            if (resource is Resource.Success) recipe.isFavorite = isFavorite
-            favoriteLiveData.postValue(resource)
+    fun getFavoriteStatus() = viewModelScope.launch {
+        val resource = withContext(ctxProvider.IO) {
+            repository.checkIfRecipeIsFavorite(recipe.id)
+        }
+
+        if (resource is Resource.Success) {
+            recipe.isFavorite = resource.data!!
+            favoriteLiveData.value = Resource.Success(false)
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        repositoryJob.cancel() // cancel DB/API call if in progress
+    fun toggleFavoriteStatus() = viewModelScope.launch(ctxProvider.IO) {
+        val isFavorite = !recipe.isFavorite
+        val resource = withContext(ctxProvider.IO) {
+            repository.toggleRecipeAsFavorite(recipe.id, isFavorite)
+        }
+
+        if (resource is Resource.Success) recipe.isFavorite = isFavorite
+        favoriteLiveData.value = resource
     }
 }

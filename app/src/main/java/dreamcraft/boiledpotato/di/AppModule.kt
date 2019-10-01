@@ -12,6 +12,7 @@ import dreamcraft.boiledpotato.serialization.RecipeDeserializer
 import dreamcraft.boiledpotato.serialization.RecipesArrayDeserializer
 import dreamcraft.boiledpotato.services.RestApiHttpInterceptor
 import dreamcraft.boiledpotato.services.RestApiService
+import dreamcraft.boiledpotato.utilities.CoroutineContextProvider
 import dreamcraft.boiledpotato.viewmodels.RecipeViewModel
 import dreamcraft.boiledpotato.viewmodels.SearchResultsViewModel
 import okhttp3.OkHttpClient
@@ -31,6 +32,7 @@ val appModule : Module = module {
 
     single { RecipeRepository() }
     single(named("webApiResultsSize")) { 10 }
+    single { CoroutineContextProvider() }
 
     single { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "BoiledPotato").build() }
     single { get<AppDatabase>().recipeDao() }
