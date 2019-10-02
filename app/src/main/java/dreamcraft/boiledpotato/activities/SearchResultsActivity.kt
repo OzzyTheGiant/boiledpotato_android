@@ -23,15 +23,21 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
 class SearchResultsActivity : AppCompatActivity() {
-    private val viewModel : SearchResultsViewModel by viewModel()
+    // dependencies
+    public val viewModel : SearchResultsViewModel by viewModel()
     private val maxResultsSize: Int by inject(named("webApiResultsSize"))
-    private val clickListener = View.OnClickListener { viewModel.getRecipes() }
+
+    // callbacks
+    private val clickListener = View.OnClickListener { viewModel.fetchRecipes() }
+    private val liveDataObserver = Observer<Resource<RecipeSearchQuery>> { processResource(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
 
-        observeRecipes()
+        // observe recipe LiveData
+        viewModel.resourceLiveData.observe(this, liveDataObserver)
+
         setClickListeners()
         setupRecyclerView()
 
@@ -41,11 +47,8 @@ class SearchResultsActivity : AppCompatActivity() {
         if (viewModel.searchKeywords == "favorites") activity_title.text = getString(R.string.FAVORITES)
 
         // if activity is restarted, current recipe list will be saved so just redisplay recipe list
-        if (viewModel.recipes.size() == 0) viewModel.getRecipes()
-        else {
-            toggleLoadingIndicators(View.GONE)
-            displaySearchResults()
-        }
+        if (viewModel.recipes.size() == 0) viewModel.fetchRecipes()
+        else processResource(viewModel.resourceLiveData.value!!)
     }
 
     /** insert adapter and layout manager to search results recycler view */
@@ -72,25 +75,23 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     /** notify recycler view when the array of recipes has been given more recipes */
-    private fun observeRecipes() {
-        viewModel.resourceLiveData.observe(this, Observer<Resource<RecipeSearchQuery>> {
-            when(it) {
-                is Resource.Loading -> {
-                    toggleLoadingIndicators(View.VISIBLE)
-                    toggleErrorMessage(View.GONE)
-                    button_load_more.visibility = View.GONE
-                }
-                is Resource.Error -> {
-                    toggleLoadingIndicators(View.GONE)
-                    toggleErrorMessage(it.message ?: "")
-                    button_load_more.visibility = View.GONE
-                }
-                is Resource.Success -> {
-                    toggleLoadingIndicators(View.GONE)
-                    displaySearchResults()
-                }
+    fun processResource(resource: Resource<RecipeSearchQuery>) {
+        when(resource) {
+            is Resource.Loading -> {
+                toggleLoadingIndicators(View.VISIBLE)
+                toggleErrorMessage(View.GONE)
+                button_load_more.visibility = View.GONE
             }
-        })
+            is Resource.Error -> {
+                toggleLoadingIndicators(View.GONE)
+                toggleErrorMessage(resource.message ?: "")
+                button_load_more.visibility = View.GONE
+            }
+            is Resource.Success -> {
+                toggleLoadingIndicators(View.GONE)
+                displaySearchResults(resource)
+            }
+        }
     }
 
     /** display skeleton views or loading indicator depending on if recipe list is already loaded */
@@ -106,10 +107,9 @@ class SearchResultsActivity : AppCompatActivity() {
     }
 
     /** reveal search results using RecyclerView */
-    private fun displaySearchResults() {
+    private fun displaySearchResults(resource: Resource<RecipeSearchQuery>) {
         // specify # of recipes the last http call had; Since Resource is Success, data is guaranteed
-        val resource = viewModel.resourceLiveData.value as Resource.Success
-        val resultsSize = resource.data!!.recipes?.size ?: 0
+        val resultsSize = resource.data?.recipes?.size ?: 0
 
         if (recycler_view.adapter == null) {
             recycler_view.adapter = SearchResultsRecyclerViewAdapter(viewModel.recipes)
