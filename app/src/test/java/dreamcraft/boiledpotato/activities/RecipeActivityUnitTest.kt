@@ -130,5 +130,11 @@ class RecipeActivityUnitTest : KoinTest {
         }
     }
 
+    @Test fun finishesWhileReturningFavoriteStatus() {
+        sampleRecipe.isFavorite = true
+        onView(withId(R.id.button_back)).perform(click())
+        assertEquals(scenario.result.resultData.getBooleanExtra(IntentExtras.IS_FAVORITE, false), true)
+    }
+
     @After fun tearDown() = stopKoin()
 }
