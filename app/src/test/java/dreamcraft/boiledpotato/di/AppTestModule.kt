@@ -1,14 +1,24 @@
 package dreamcraft.boiledpotato.di
 
 import android.util.SparseArray
+import androidx.room.Room
+import dreamcraft.boiledpotato.database.AppDatabase
 import dreamcraft.boiledpotato.models.Recipe
 import dreamcraft.boiledpotato.utilities.CoroutineContextProvider
 import dreamcraft.boiledpotato.utilities.TestCoroutineContextProvider
+import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appTestModule : Module = module(override = true) {
+    single {
+        Room
+            .inMemoryDatabaseBuilder(androidApplication(), AppDatabase::class.java)
+            .allowMainThreadQueries().build()
+    }
+
+    single { get<AppDatabase>().recipeDao() }
     single<CoroutineContextProvider> { TestCoroutineContextProvider() }
 
     single<List<Recipe>> {
