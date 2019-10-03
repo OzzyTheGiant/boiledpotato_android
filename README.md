@@ -12,6 +12,12 @@ a reference when building your own apps.
 >
 > You can get access to this API at [rapidapi.com]
 
+### Android Compatibility
+
+**Minimum SDK: 21** - Android 5.0 Lollipop
+
+**Target SDK: 28** - Android 9.0 Pie
+
 
 ### Features
 The main activity will show a simple search box at the top of the page and
