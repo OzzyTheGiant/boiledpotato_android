@@ -1,3 +1,4 @@
+![](https://github.com/OzzyTheGiant/boiledpotato_android/blob/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png?raw=true) 
 # Boiled Potato
 A sample recipe search app using Spoonacular REST API and built natively for Android
 
